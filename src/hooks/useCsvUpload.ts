@@ -2,71 +2,160 @@
 
 import { useState } from "react";
 
-import { parseCSV } from "@/lib/parser";
+import { parseCsvFile } from "@/lib/parser";
 import { validateTransactions } from "@/lib/validator";
+import { cleanTransactionData } from "@/lib/dataCleaner";
 
-export function useCsvUpload() {
-  const [loading, setLoading] = useState(false);
+import {
+  TransactionRecord,
+  ValidationResult,
+  CleaningStats,
+  FileInfo,
+  UploadHistory,
+} from "@/types/transaction";
 
-  const [rows, setRows] = useState<
-    Record<string, string>[]
-  >([]);
+export const useCsvUpload = () => {
+  const [file, setFile] =
+    useState<File | null>(null);
 
-  const [validRows, setValidRows] = useState<
-    Record<string, string>[]
-  >([]);
+  const [loading, setLoading] =
+    useState(false);
 
-  const [invalidRows, setInvalidRows] = useState<
-    Record<string, string>[]
-  >([]);
+  const [records, setRecords] =
+    useState<TransactionRecord[]>([]);
 
-  const [errors, setErrors] = useState<any[]>([]);
+  const [
+    validationResult,
+    setValidationResult,
+  ] = useState<ValidationResult | null>(
+    null
+  );
 
-  async function uploadFile(file: File) {
+  const [
+    cleaningStats,
+    setCleaningStats,
+  ] = useState<CleaningStats | null>(
+    null
+  );
+
+  const [fileInfo, setFileInfo] =
+    useState<FileInfo | null>(null);
+
+  const [
+    uploadHistory,
+    setUploadHistory,
+  ] = useState<UploadHistory[]>([]);
+
+  const uploadCsv = async (
+    file: File
+  ) => {
     try {
       setLoading(true);
 
-      const parsedRows =
-        await parseCSV(file);
+      setFile(file);
 
-      const validationResult =
-        validateTransactions(parsedRows);
+      const parsedData =
+        await parseCsvFile(file);
 
-      setRows(parsedRows);
-
-      setValidRows(
-        validationResult.validRows
+      const {
+        cleanedData,
+        cleaningStats,
+      } = cleanTransactionData(
+        parsedData
       );
 
-      setInvalidRows(
-        validationResult.invalidRows
+      setRecords(cleanedData);
+
+      setCleaningStats(
+        cleaningStats
       );
 
-      setErrors(
-        validationResult.errors
+      const result =
+        validateTransactions(
+          cleanedData
+        );
+
+      setValidationResult(result);
+
+      const info: FileInfo = {
+        fileName: file.name,
+        fileSize: `${(
+          file.size / 1024
+        ).toFixed(2)} KB`,
+        totalRows:
+          cleanedData.length,
+        totalColumns:
+          cleanedData.length > 0
+            ? Object.keys(
+                cleanedData[0]
+              ).length
+            : 0,
+        uploadedAt:
+          new Date().toLocaleString(),
+      };
+
+      setFileInfo(info);
+
+      const historyItem: UploadHistory =
+        {
+          fileName: file.name,
+          uploadedAt:
+            new Date().toLocaleString(),
+        };
+
+      const existingHistory =
+        JSON.parse(
+          localStorage.getItem(
+            "uploadHistory"
+          ) || "[]"
+        );
+
+      const updatedHistory = [
+        historyItem,
+        ...existingHistory,
+      ].slice(0, 10);
+
+      localStorage.setItem(
+        "uploadHistory",
+        JSON.stringify(
+          updatedHistory
+        )
       );
 
-      return validationResult;
+      setUploadHistory(
+        updatedHistory
+      );
     } catch (error) {
-      console.error(error);
-
-      throw error;
+      console.error(
+        "CSV Upload Error:",
+        error
+      );
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const resetUpload = () => {
+    setFile(null);
+
+    setRecords([]);
+
+    setValidationResult(null);
+
+    setCleaningStats(null);
+
+    setFileInfo(null);
+  };
 
   return {
+    file,
     loading,
-
-    rows,
-
-    validRows,
-
-    invalidRows,
-
-    errors,
-
-    uploadFile,
+    records,
+    validationResult,
+    cleaningStats,
+    fileInfo,
+    uploadHistory,
+    uploadCsv,
+    resetUpload,
   };
-}
+};

@@ -1,21 +1,31 @@
-export function splitCSVData(
-  rows: Record<string, string>[],
-  chunkSize = 1000
-) {
-  const chunks = [];
+import Papa from "papaparse";
+import { TransactionRecord } from "@/types/transaction";
 
-  for (
-    let i = 0;
-    i < rows.length;
-    i += chunkSize
-  ) {
-    chunks.push(
-      rows.slice(
-        i,
-        i + chunkSize
-      )
-    );
+export interface CsvChunk {
+  fileName: string;
+  csvContent: string;
+}
+
+export const splitCsvData = (
+  data: TransactionRecord[],
+  chunkSize: number = 1000
+): CsvChunk[] => {
+  if (!data.length) return [];
+
+  const chunks: CsvChunk[] = [];
+
+  for (let i = 0; i < data.length; i += chunkSize) {
+    const chunk = data.slice(i, i + chunkSize);
+
+    const csvContent = Papa.unparse(chunk);
+
+    chunks.push({
+      fileName: `transactions_part_${
+        Math.floor(i / chunkSize) + 1
+      }.csv`,
+      csvContent,
+    });
   }
 
   return chunks;
-}
+};

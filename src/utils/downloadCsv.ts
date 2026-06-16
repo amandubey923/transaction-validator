@@ -1,45 +1,51 @@
-export async function downloadCleanCsv(
-  rows: Record<
-    string,
-    string
-  >[]
-) {
-  const response =
-    await fetch(
-      "/api/download",
-      {
-        method: "POST",
+import Papa from "papaparse";
 
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
+export const downloadCsv = (
+  data: any[],
+  fileName: string
+) => {
+  const csv = Papa.unparse(data);
 
-        body: JSON.stringify({
-          rows,
-        }),
-      }
-    );
+  const blob = new Blob([csv], {
+    type: "text/csv;charset=utf-8;",
+  });
 
-  const blob =
-    await response.blob();
+  const url = URL.createObjectURL(blob);
 
-  const url =
-    window.URL.createObjectURL(
-      blob
-    );
-
-  const link =
-    document.createElement(
-      "a"
-    );
+  const link = document.createElement("a");
 
   link.href = url;
+  link.setAttribute("download", fileName);
 
-  link.download =
-    "clean-data.csv";
+  document.body.appendChild(link);
 
   link.click();
 
+  document.body.removeChild(link);
+
   URL.revokeObjectURL(url);
-}
+};
+
+export const downloadCsvString = (
+  csvContent: string,
+  fileName: string
+) => {
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.setAttribute("download", fileName);
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+};
