@@ -78,7 +78,7 @@ export const validateTransactions = (
 
         errors.push({
           row: rowNumber,
-          order_id: record.order_id || "N/A",
+          order_id: record.order_id || " ",
           field: "phone",
           message: phoneValidation.message || "Invalid phone",
         });
@@ -143,7 +143,7 @@ export const validateTransactions = (
 
       errors.push({
         row: rowNumber,
-        order_id: record.order_id || "N/A",
+        order_id: record.order_id || " ",
         field: "quantity",
         message: "Quantity cannot be negative",
       });
@@ -154,7 +154,7 @@ export const validateTransactions = (
 
       errors.push({
         row: rowNumber,
-        order_id: record.order_id || "N/A",
+        order_id: record.order_id || " ",
         field: "unit_price",
         message: "Unit price cannot be negative",
       });
@@ -165,7 +165,7 @@ export const validateTransactions = (
 
       errors.push({
         row: rowNumber,
-        order_id: record.order_id || "N/A",
+        order_id: record.order_id || " ",
         field: "total_amount",
         message: "Total amount cannot be negative",
       });
@@ -185,7 +185,7 @@ export const validateTransactions = (
 
         errors.push({
           row: rowNumber,
-          order_id: record.order_id || "N/A",
+          order_id: record.order_id || " ",
           field: "total_amount",
           message:
             "total_amount does not match quantity × unit_price",

@@ -22,16 +22,30 @@ const formatCountry = (
     .trim()
     .toLowerCase();
 
-  const countryMap: Record<
-    string,
-    string
-  > = {
-    india: "India",
-    singapore: "Singapore",
-    usa: "USA",
-    uk: "UK",
-    australia: "Australia",
-  };
+ const countryMap: Record<
+  string,
+  string
+> = {
+  india: "India",
+  singapore: "Singapore",
+  usa: "USA",
+  uk: "UK",
+  australia: "Australia",
+
+  france: "France",
+  germany: "Germany",
+  russia: "Russia",
+  indonesia: "Indonesia",
+  botswana: "Botswana",
+  venezuela: "Venezuela",
+  brazil: "Brazil",
+  canada: "Canada",
+  mexico: "Mexico",
+  japan: "Japan",
+  china: "China",
+  italy: "Italy",
+  spain: "Spain",
+};
 
   const formatted =
     countryMap[value] ||
@@ -121,22 +135,48 @@ const cleanTime = (
   time: string,
   stats: CleaningStats
 ): string => {
-  const original = time;
+  const value = String(time ?? "").trim();
 
-  const value = String(time).trim();
+  if (!value) return "";
 
-  const parts =
-    value.split(":");
-
-  if (parts.length === 2) {
-    stats.timeFixed++;
-
-    return `${parts[0]}:${parts[1]}:00`;
+  // Already HH:mm:ss
+  if (/^\d{2}:\d{2}:\d{2}$/.test(value)) {
+    return value;
   }
 
-  return original;
-};
+  // HH:mm
+  if (/^\d{1,2}:\d{2}$/.test(value)) {
+    stats.timeFixed++;
+    return `${value}:00`;
+  }
 
+  // Excel style decimal time
+  if (/^\d+(\.\d+)?$/.test(value)) {
+    const decimal = parseFloat(value);
+
+    const hours = Math.floor(decimal);
+
+    let minutes = Math.round(
+      (decimal - hours) * 60
+    );
+
+    if (minutes > 59) {
+      minutes = 59;
+    }
+
+    stats.timeFixed++;
+
+    return `${String(hours).padStart(
+      2,
+      "0"
+    )}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:00`;
+  }
+
+  return value;
+};
 const cleanText = (
   value: any,
   stats: CleaningStats

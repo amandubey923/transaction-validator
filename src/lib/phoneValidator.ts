@@ -34,7 +34,7 @@ export const validatePhone = (
 
   const cleanedPhone = phone.replace(/\D/g, "");
 
-  if (cleanedPhone.length !== countryRule.phoneLength) {
+  if (cleanedPhone.length == countryRule.phoneLength) {
     return {
       isValid: false,
       message: `${country} phone number must contain ${countryRule.phoneLength} digits`,
