@@ -8,7 +8,7 @@ export interface CsvChunk {
 
 export const splitCsvData = (
   data: TransactionRecord[],
-  chunkSize: number = 1000
+  chunkSize: number = 50       //for testing purpose        // 1000
 ): CsvChunk[] => {
   if (!data.length) return [];
 
