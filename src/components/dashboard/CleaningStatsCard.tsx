@@ -105,7 +105,7 @@ export default function CleaningStatsCard({
 
             <div>
               <h2 className="text-2xl font-bold text-white">
-                AI Data Cleaning Statistics
+                 Data Cleaning Statistics
               </h2>
 
               <p className="text-slate-400 mt-1">
@@ -173,7 +173,7 @@ export default function CleaningStatsCard({
           "
           >
             <p className="text-slate-300">
-              AI cleaning engine normalized
+              Xeno cleaning engine normalized
               phone numbers, countries, dates,
               times and removed formatting
               inconsistencies before running
