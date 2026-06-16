@@ -1,22 +1,47 @@
-import { countryRules } from "@/data/countryRules";
+import { getCountryRule } from "@/data/countryRules";
 
-export function validatePhone(
+export interface PhoneValidationResult {
+  isValid: boolean;
+  message?: string;
+}
+
+export const validatePhone = (
   phone: string,
   country: string
-): boolean {
-  const rule = countryRules[country];
-
-  if (!rule) {
-    return false;
+): PhoneValidationResult => {
+  if (!phone) {
+    return {
+      isValid: false,
+      message: "Phone number is required",
+    };
   }
 
-  const cleanedPhone = phone.replace(
-    /\D/g,
-    ""
-  );
+  if (!country) {
+    return {
+      isValid: false,
+      message: "Country is required",
+    };
+  }
 
-  return (
-    cleanedPhone.length ===
-    rule.phoneLength
-  );
-}
+  const countryRule = getCountryRule(country);
+
+  if (!countryRule) {
+    return {
+      isValid: false,
+      message: `Unsupported country: ${country}`,
+    };
+  }
+
+  const cleanedPhone = phone.replace(/\D/g, "");
+
+  if (cleanedPhone.length !== countryRule.phoneLength) {
+    return {
+      isValid: false,
+      message: `${country} phone number must contain ${countryRule.phoneLength} digits`,
+    };
+  }
+
+  return {
+    isValid: true,
+  };
+};

@@ -1,146 +1,222 @@
+import {
+  TransactionRecord,
+  ValidationError,
+  ValidationResult,
+} from "@/types/transaction";
+
 import { validatePhone } from "./phoneValidator";
-import { validateDate } from "./dateValidator";
+import { validateDate, validateTime } from "./dateValidator";
+import { getCountryRule } from "@/data/countryRules";
 
-export type ValidationError = {
-  row: number;
-  orderId: string;
-  field: string;
-  error: string;
-};
+const REQUIRED_FIELDS = [
+  "order_id",
+  "phone",
+  "country",
+  "transaction_date",
+  "transaction_time",
+];
 
-export type ValidationResult = {
-  validRows: Record<string, string>[];
-  invalidRows: Record<string, string>[];
-  errors: ValidationError[];
-};
-
-export function validateTransactions(
-  rows: Record<string, string>[]
-): ValidationResult {
-  const validRows: Record<string, string>[] = [];
-
-  const invalidRows: Record<string, string>[] = [];
-
+export const validateTransactions = (
+  records: TransactionRecord[]
+): ValidationResult => {
+  const validData: TransactionRecord[] = [];
+  const invalidData: TransactionRecord[] = [];
   const errors: ValidationError[] = [];
 
-  const seenOrderIds = new Set<string>();
+  const orderIds = new Set<string>();
+  const countries = new Set<string>();
 
-  rows.forEach((row, index) => {
-    let isValid = true;
+  records.forEach((record, index) => {
+    let isValidRow = true;
 
     const rowNumber = index + 2;
 
-    const orderId = row.orderId || "";
+    REQUIRED_FIELDS.forEach((field) => {
+      const value = record[field];
 
-    const phone = row.phone || "";
+      if (
+        value === undefined ||
+        value === null ||
+        value === ""
+      ) {
+        isValidRow = false;
 
-    const country = row.country || "";
-
-    const orderDate = row.orderDate || "";
-
-    /* ------------------------
-       Required Fields
-    ------------------------- */
-
-    if (!orderId) {
-      errors.push({
-        row: rowNumber,
-        orderId: "-",
-        field: "orderId",
-        error: "Order ID missing",
-      });
-
-      isValid = false;
-    }
-
-    if (!phone) {
-      errors.push({
-        row: rowNumber,
-        orderId,
-        field: "phone",
-        error: "Phone missing",
-      });
-
-      isValid = false;
-    }
-
-    if (!country) {
-      errors.push({
-        row: rowNumber,
-        orderId,
-        field: "country",
-        error: "Country missing",
-      });
-
-      isValid = false;
-    }
-
-    /* ------------------------
-       Duplicate Order ID
-    ------------------------- */
-
-    if (orderId) {
-      if (seenOrderIds.has(orderId)) {
         errors.push({
           row: rowNumber,
-          orderId,
-          field: "orderId",
-          error: "Duplicate Order ID",
+          order_id: record.order_id || "N/A",
+          field,
+          message: `${field} is required`,
         });
-
-        isValid = false;
       }
+    });
 
-      seenOrderIds.add(orderId);
+    if (record.country) {
+      countries.add(record.country);
+
+      const countryRule = getCountryRule(record.country);
+
+      if (!countryRule) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id || "N/A",
+          field: "country",
+          message: "Unsupported country",
+        });
+      }
     }
 
-    /* ------------------------
-       Phone Validation
-    ------------------------- */
+    if (record.phone && record.country) {
+      const phoneValidation = validatePhone(
+        String(record.phone),
+        record.country
+      );
 
-    if (
-      phone &&
-      country &&
-      !validatePhone(phone, country)
-    ) {
+      if (!phoneValidation.isValid) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id || "N/A",
+          field: "phone",
+          message: phoneValidation.message || "Invalid phone",
+        });
+      }
+    }
+
+    if (record.transaction_date) {
+      const dateValidation = validateDate(
+        record.transaction_date
+      );
+
+      if (!dateValidation.isValid) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id || "N/A",
+          field: "transaction_date",
+          message: dateValidation.message || "Invalid date",
+        });
+      }
+    }
+
+    if (record.transaction_time) {
+      const timeValidation = validateTime(
+        record.transaction_time
+      );
+
+      if (!timeValidation.isValid) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id || "N/A",
+          field: "transaction_time",
+          message: timeValidation.message || "Invalid time",
+        });
+      }
+    }
+
+    if (record.order_id) {
+      if (orderIds.has(record.order_id)) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id,
+          field: "order_id",
+          message: "Duplicate order_id detected",
+        });
+      } else {
+        orderIds.add(record.order_id);
+      }
+    }
+
+    const quantity = Number(record.quantity);
+    const unitPrice = Number(record.unit_price);
+    const totalAmount = Number(record.total_amount);
+
+    if (!Number.isNaN(quantity) && quantity < 0) {
+      isValidRow = false;
+
       errors.push({
         row: rowNumber,
-        orderId,
-        field: "phone",
-        error: "Invalid phone number",
+        order_id: record.order_id || "N/A",
+        field: "quantity",
+        message: "Quantity cannot be negative",
       });
-
-      isValid = false;
     }
 
-    /* ------------------------
-       Date Validation
-    ------------------------- */
+    if (!Number.isNaN(unitPrice) && unitPrice < 0) {
+      isValidRow = false;
 
-    if (
-      orderDate &&
-      !validateDate(orderDate)
-    ) {
       errors.push({
         row: rowNumber,
-        orderId,
-        field: "orderDate",
-        error: "Invalid date format",
+        order_id: record.order_id || "N/A",
+        field: "unit_price",
+        message: "Unit price cannot be negative",
       });
-
-      isValid = false;
     }
 
-    if (isValid) {
-      validRows.push(row);
+    if (!Number.isNaN(totalAmount) && totalAmount < 0) {
+      isValidRow = false;
+
+      errors.push({
+        row: rowNumber,
+        order_id: record.order_id || "N/A",
+        field: "total_amount",
+        message: "Total amount cannot be negative",
+      });
+    }
+
+    if (
+      !Number.isNaN(quantity) &&
+      !Number.isNaN(unitPrice) &&
+      !Number.isNaN(totalAmount)
+    ) {
+      const calculatedTotal = quantity * unitPrice;
+
+      if (
+        Math.abs(calculatedTotal - totalAmount) > 0.01
+      ) {
+        isValidRow = false;
+
+        errors.push({
+          row: rowNumber,
+          order_id: record.order_id || "N/A",
+          field: "total_amount",
+          message:
+            "total_amount does not match quantity × unit_price",
+        });
+      }
+    }
+
+    if (isValidRow) {
+      validData.push(record);
     } else {
-      invalidRows.push(row);
+      invalidData.push(record);
     }
   });
 
+  const totalRows = records.length;
+  const validRows = validData.length;
+  const invalidRows = invalidData.length;
+
   return {
+    totalRows,
     validRows,
     invalidRows,
+    countriesDetected: countries.size,
+    successRate:
+      totalRows === 0
+        ? 0
+        : Number(
+            ((validRows / totalRows) * 100).toFixed(2)
+          ),
+    validData,
+    invalidData,
     errors,
   };
-}
+};
