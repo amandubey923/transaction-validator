@@ -1,62 +1,17 @@
 import Papa from "papaparse";
+import { TransactionRecord } from "@/types/transaction";
 
-function normalizeRow(
-  row: Record<string, string>
-): Record<string, string> {
-  return {
-    orderId:
-      row["orderId"] ||
-      row["Order ID"] ||
-      row["order_id"] ||
-      "",
-
-    phone:
-      row["phone"] ||
-      row["Phone"] ||
-      row["Phone Number"] ||
-      row["phone_number"] ||
-      "",
-
-    country:
-      row["country"] ||
-      row["Country"] ||
-      row["Country Code"] ||
-      row["country_code"] ||
-      "",
-
-    orderDate:
-      row["orderDate"] ||
-      row["Order Date"] ||
-      row["date"] ||
-      "",
-
-    paymentMode:
-      row["paymentMode"] ||
-      row["Payment Mode"] ||
-      row["payment_mode"] ||
-      "",
-
-    productName:
-      row["productName"] ||
-      row["Product Name"] ||
-      row["product_name"] ||
-      "",
-  };
-}
-
-export function parseCSV(
+export const parseCsvFile = (
   file: File
-): Promise<Record<string, string>[]> {
+): Promise<TransactionRecord[]> => {
   return new Promise((resolve, reject) => {
-    Papa.parse<Record<string, string>>(file, {
+    Papa.parse<TransactionRecord>(file, {
       header: true,
       skipEmptyLines: true,
+      dynamicTyping: false,
 
       complete: (results) => {
-        const normalizedRows =
-          results.data.map(normalizeRow);
-
-        resolve(normalizedRows);
+        resolve(results.data);
       },
 
       error: (error) => {
@@ -64,4 +19,4 @@ export function parseCSV(
       },
     });
   });
-}
+};
