@@ -1,31 +1,22 @@
 import { NextResponse } from "next/server";
 import Papa from "papaparse";
 
-export async function POST(
-  request: Request
-) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
+    const body = await req.json();
 
-    const rows = body.rows;
+    const data = body.data || [];
 
-    const csv =
-      Papa.unparse(rows);
+    const csv = Papa.unparse(data);
 
-    return new NextResponse(
-      csv,
-      {
-        status: 200,
-
-        headers: {
-          "Content-Type":
-            "text/csv",
-
-          "Content-Disposition":
-            'attachment; filename="clean-data.csv"',
-        },
-      }
-    );
+    return new NextResponse(csv, {
+      headers: {
+        "Content-Type":
+          "text/csv; charset=utf-8",
+        "Content-Disposition":
+          'attachment; filename="clean_transactions.csv"',
+      },
+    });
   } catch (error) {
     console.error(error);
 
@@ -33,7 +24,7 @@ export async function POST(
       {
         success: false,
         message:
-          "Failed to generate CSV",
+          "CSV generation failed",
       },
       {
         status: 500,

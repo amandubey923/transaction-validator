@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-
 import { validateTransactions } from "@/lib/validator";
 
-export async function POST(
-  request: Request
-) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
+    const body = await req.json();
 
-    const rows = body.rows;
+    const records = body.records || [];
 
     const result =
-      validateTransactions(rows);
+      validateTransactions(records);
 
     return NextResponse.json({
       success: true,
-      ...result,
+      result,
     });
   } catch (error) {
     console.error(error);
@@ -24,7 +21,7 @@ export async function POST(
       {
         success: false,
         message:
-          "Validation failed",
+          "Validation process failed",
       },
       {
         status: 500,
