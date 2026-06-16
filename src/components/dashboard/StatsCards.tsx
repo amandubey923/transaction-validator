@@ -1,113 +1,119 @@
 "use client";
 
 import {
-  FileSpreadsheet,
+  Database,
   CheckCircle2,
   AlertTriangle,
   Globe,
 } from "lucide-react";
 
-type StatsCardsProps = {
-  totalRecords?: number;
-  validRecords?: number;
-  invalidRecords?: number;
-  countries?: number;
-};
+interface StatsCardsProps {
+  totalRows: number;
+  validRows: number;
+  invalidRows: number;
+  countriesDetected: number;
+}
 
 export default function StatsCards({
-  totalRecords = 5000,
-  validRecords = 4820,
-  invalidRecords = 180,
-  countries = 12,
+  totalRows,
+  validRows,
+  invalidRows,
+  countriesDetected,
 }: StatsCardsProps) {
   const stats = [
     {
       title: "Total Records",
-      value: totalRecords.toLocaleString(),
-      icon: FileSpreadsheet,
-      description: "Uploaded CSV rows",
+      value: totalRows,
+      icon: Database,
+      gradient:
+        "from-cyan-500/20 to-blue-500/20",
+      iconColor: "text-cyan-400",
     },
     {
       title: "Valid Records",
-      value: validRecords.toLocaleString(),
+      value: validRows,
       icon: CheckCircle2,
-      description: "Ready for processing",
+      gradient:
+        "from-emerald-500/20 to-green-500/20",
+      iconColor: "text-emerald-400",
     },
     {
       title: "Invalid Records",
-      value: invalidRecords.toLocaleString(),
+      value: invalidRows,
       icon: AlertTriangle,
-      description: "Require correction",
+      gradient:
+        "from-rose-500/20 to-red-500/20",
+      iconColor: "text-rose-400",
     },
     {
       title: "Countries",
-      value: countries.toString(),
+      value: countriesDetected,
       icon: Globe,
-      description: "Detected regions",
+      gradient:
+        "from-violet-500/20 to-indigo-500/20",
+      iconColor: "text-violet-400",
     },
   ];
 
   return (
-    <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      {stats.map((stat) => {
-        const Icon = stat.icon;
+    <div
+      className="
+      grid
+      grid-cols-1
+      sm:grid-cols-2
+      xl:grid-cols-4
+      gap-6
+    "
+    >
+      {stats.map((item) => {
+        const Icon = item.icon;
 
         return (
           <div
-            key={stat.title}
-            className="
-              group
+            key={item.title}
+            className={`
               relative
               overflow-hidden
               rounded-3xl
-              border border-white/10
-              bg-white/5
+              border
+              border-white/10
+              bg-gradient-to-br
+              ${item.gradient}
               backdrop-blur-xl
               p-6
               transition-all
               duration-300
               hover:-translate-y-1
-              hover:border-indigo-500/40
-              hover:bg-white/10
-            "
+              hover:border-white/20
+            `}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-cyan-500/10" />
-
-            <div className="relative flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-zinc-400">
-                  {stat.title}
+                <p className="text-slate-400 text-sm">
+                  {item.title}
                 </p>
 
-                <h2 className="mt-3 text-4xl font-bold text-white">
-                  {stat.value}
+                <h2 className="mt-2 text-3xl font-bold text-white">
+                  {item.value}
                 </h2>
-
-                <p className="mt-2 text-xs text-zinc-500">
-                  {stat.description}
-                </p>
               </div>
 
               <div
                 className="
-                  flex
-                  h-14
-                  w-14
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-gradient-to-br
-                  from-indigo-600
-                  to-purple-600
-                  shadow-lg
-                "
+                p-4
+                rounded-2xl
+                bg-white/5
+              "
               >
-                <Icon size={28} className="text-white" />
+                <Icon
+                  size={28}
+                  className={item.iconColor}
+                />
               </div>
             </div>
           </div>
         );
       })}
-    </section>
+    </div>
   );
 }

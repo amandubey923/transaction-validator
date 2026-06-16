@@ -1,99 +1,220 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Upload,
-  FileCheck,
+  BarChart3,
+  PieChart,
+  AlertTriangle,
   Download,
-  Settings,
+  Table2,
+  X,
 } from "lucide-react";
+
+
+interface SidebarProps {
+  open: boolean;
+  onClose: () => void;
+}
 
 const menuItems = [
   {
-    title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/",
+    label: "Dashboard",
+    id: "dashboard",
   },
   {
-    title: "Upload CSV",
     icon: Upload,
-    href: "/",
+    label: "Upload CSV",
+    id: "upload",
   },
   {
-    title: "Results",
-    icon: FileCheck,
-    href: "/result",
+    icon: BarChart3,
+    label: "Statistics",
+    id: "stats",
   },
   {
-    title: "Downloads",
+    icon: PieChart,
+    label: "Charts",
+    id: "country-chart-section",
+  },
+  {
+    icon: AlertTriangle,
+    label: "Errors",
+    id: "error-download-section",
+  },
+  {
     icon: Download,
-    href: "/result",
+    label: "Downloads",
+    id: "downloads-section",
   },
   {
-    title: "Settings",
-    icon: Settings,
-    href: "#",
+    icon: Table2,
+    label: "Preview",
+    id: "preview-section",
+  },
+  {
+    icon: Table2,
+    label: "Recent Uploads",
+    id: "recent-uploads-section",
   },
 ];
 
-export default function Sidebar() {
-  const pathname = usePathname();
+export default function Sidebar({
+  open,
+  onClose,
+}: SidebarProps) {
+  const scrollToSection = (
+    sectionId: string
+  ) => {
+    const element =
+      document.getElementById(
+        sectionId
+      );
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+
+    onClose();
+  };
 
   return (
-    <aside className="w-[280px] h-screen border-r border-white/10 bg-[#0A0F1E] sticky top-0">
-      <div className="h-20 flex items-center px-6 border-b border-white/10">
-        <div>
-          <h1 className="text-xl font-bold text-white">
-            AI Empowerment
+    <>
+      {open && (
+        <div
+          onClick={onClose}
+          className="
+          fixed
+          inset-0
+          z-40
+          bg-black/60
+          lg:hidden
+        "
+        />
+      )}
+
+      <aside
+        className={`
+    fixed
+    lg:sticky
+    top-0
+    left-0
+    z-50
+    h-screen
+    w-72
+    flex-shrink-0
+    transform
+    transition-all
+    duration-300
+    ${
+      open
+        ? "translate-x-0"
+        : "-translate-x-full lg:translate-x-0"
+    }
+    border-r
+    border-white/10
+    bg-slate-950/95
+    backdrop-blur-xl
+    overflow-y-auto
+  `}
+>
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <h1
+            className="
+            text-xl
+            font-bold
+            bg-gradient-to-r
+            from-cyan-400
+            via-violet-400
+            to-indigo-400
+            bg-clip-text
+            text-transparent
+          "
+          >
+            Xeno Validator
           </h1>
 
-          <p className="text-xs text-zinc-400">
-            Transaction Validator
-          </p>
+          <button
+            onClick={onClose}
+            className="lg:hidden text-white"
+          >
+            <X size={22} />
+          </button>
         </div>
-      </div>
 
-      <div className="p-4 space-y-2">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
+        <div className="p-4">
+          <p className="text-xs uppercase tracking-widest text-slate-500 mb-4">
+            Navigation
+          </p>
 
-          const active = pathname === item.href;
+          <nav className="space-y-2">
+            {menuItems.map(
+              (item) => {
+                const Icon =
+                  item.icon;
 
-          return (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300
-              
-              ${
-                active
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/30"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() =>
+                      scrollToSection(
+                        item.id
+                      )
+                    }
+                    className="
+                      w-full
+                      flex
+                      items-center
+                      gap-3
+                      px-4
+                      py-3
+                      rounded-2xl
+                      text-slate-300
+                      hover:text-white
+                      hover:bg-white/10
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <Icon
+                      size={20}
+                    />
+
+                    <span>
+                      {item.label}
+                    </span>
+                  </button>
+                );
               }
-              
-              `}
-            >
-              <Icon size={20} />
-
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
-      </div>
-
-      <div className="absolute bottom-5 left-5 right-5">
-        <div className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
-          <h3 className="text-white font-semibold">
-            Validation Engine
-          </h3>
-
-          <p className="text-sm text-white/80 mt-1">
-            Supports global phone, date & CSV validation.
-          </p>
+            )}
+          </nav>
         </div>
-      </div>
-    </aside>
+
+        <div className="absolute bottom-6 left-4 right-4">
+          <div
+            className="
+            rounded-3xl
+            border
+            border-cyan-500/20
+            bg-cyan-500/5
+            p-4
+          "
+          >
+            <p className="text-cyan-300 text-sm font-medium">
+              Assignment Build
+            </p>
+
+            <p className="text-slate-400 text-xs mt-1">
+              Transaction Validation &
+              Processing Platform
+            </p>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }
