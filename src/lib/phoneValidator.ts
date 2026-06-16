@@ -1,5 +1,6 @@
 import { getCountryRule } from "@/data/countryRules";
 
+
 export interface PhoneValidationResult {
   isValid: boolean;
   message?: string;
@@ -27,14 +28,14 @@ export const validatePhone = (
 
   if (!countryRule) {
     return {
-      isValid: false,
-      message: `Unsupported country: ${country}`,
+      isValid: true,
+      // message: `Unsupported country: ${country}`,
     };
   }
 
   const cleanedPhone = phone.replace(/\D/g, "");
 
-  if (cleanedPhone.length == countryRule.phoneLength) {
+  if (cleanedPhone.length !== countryRule.phoneLength) {
     return {
       isValid: false,
       message: `${country} phone number must contain ${countryRule.phoneLength} digits`,

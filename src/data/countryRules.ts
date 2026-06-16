@@ -74,7 +74,19 @@ export const countryRules: Record<string, CountryRule> = {
 };
 
 export const getCountryRule = (country: string) => {
-  return countryRules[country];
+  if (!country) return undefined;
+
+  const normalized = country.trim().toLowerCase();
+
+  const matchedKey = Object.keys(countryRules).find(
+    (key) =>
+      key.toLowerCase() === normalized ||
+      countryRules[key].country.toLowerCase() === normalized
+  );
+
+  return matchedKey
+    ? countryRules[matchedKey]
+    : undefined;
 };
 
 export const getSupportedCountries = () => {

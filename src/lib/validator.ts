@@ -51,21 +51,11 @@ export const validateTransactions = (
     });
 
     if (record.country) {
-      countries.add(record.country);
+  countries.add(record.country);
 
-      const countryRule = getCountryRule(record.country);
-
-      if (!countryRule) {
-        isValidRow = false;
-
-        errors.push({
-          row: rowNumber,
-          order_id: record.order_id || "N/A",
-          field: "country",
-          message: "Unsupported country",
-        });
-      }
-    }
+  // Unsupported country ko warning treat karo
+  // International datasets fail nahi hone chahiye
+}
 
     if (record.phone && record.country) {
       const phoneValidation = validatePhone(

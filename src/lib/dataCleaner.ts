@@ -22,14 +22,17 @@ const formatCountry = (
     .trim()
     .toLowerCase();
 
- const countryMap: Record<
-  string,
-  string
-> = {
+ const countryMap: Record<string, string> = {
+  "united states": "USA",
+  "united states of america": "USA",
+  usa: "USA",
+
+  "united kingdom": "UK",
+  england: "UK",
+  uk: "UK",
+
   india: "India",
   singapore: "Singapore",
-  usa: "USA",
-  uk: "UK",
   australia: "Australia",
 
   france: "France",
