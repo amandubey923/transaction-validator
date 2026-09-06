@@ -1,11 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-import { parseCsvFile } from "@/lib/parser";
-import { validateTransactions } from "@/lib/validator";
-import { cleanTransactionData } from "@/lib/dataCleaner";
-
+import { executeTransactionPipeline } from "@/lib/pipeline";
 import {
   TransactionRecord,
   ValidationResult,
@@ -15,121 +11,45 @@ import {
 } from "@/types/transaction";
 
 export const useCsvUpload = () => {
-  const [file, setFile] =
-    useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [records, setRecords] = useState<TransactionRecord[]>([]);
+  const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+  const [cleaningStats, setCleaningStats] = useState<CleaningStats | null>(null);
+  const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
+  const [uploadHistory, setUploadHistory] = useState<UploadHistory[]>([]);
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [records, setRecords] =
-    useState<TransactionRecord[]>([]);
-
-  const [
-    validationResult,
-    setValidationResult,
-  ] = useState<ValidationResult | null>(
-    null
-  );
-
-  const [
-    cleaningStats,
-    setCleaningStats,
-  ] = useState<CleaningStats | null>(
-    null
-  );
-
-  const [fileInfo, setFileInfo] =
-    useState<FileInfo | null>(null);
-
-  const [
-    uploadHistory,
-    setUploadHistory,
-  ] = useState<UploadHistory[]>([]);
-
-  const uploadCsv = async (
-    file: File
-  ) => {
+  const uploadCsv = async (selectedFile: File) => {
     try {
       setLoading(true);
+      setFile(selectedFile);
 
-      setFile(file);
+      const pipelineResult = await executeTransactionPipeline(selectedFile);
 
-      const parsedData =
-        await parseCsvFile(file);
+      setRecords(pipelineResult.records);
+      setCleaningStats(pipelineResult.cleaningStats);
+      setValidationResult(pipelineResult.validationResult);
+      setFileInfo(pipelineResult.fileInfo);
 
-      const {
-        cleanedData,
-        cleaningStats,
-      } = cleanTransactionData(
-        parsedData
-      );
-
-      setRecords(cleanedData);
-
-      setCleaningStats(
-        cleaningStats
-      );
-
-      const result =
-        validateTransactions(
-          cleanedData
-        );
-
-      setValidationResult(result);
-
-      const info: FileInfo = {
-        fileName: file.name,
-        fileSize: `${(
-          file.size / 1024
-        ).toFixed(2)} KB`,
-        totalRows:
-          cleanedData.length,
-        totalColumns:
-          cleanedData.length > 0
-            ? Object.keys(
-                cleanedData[0]
-              ).length
-            : 0,
-        uploadedAt:
-          new Date().toLocaleString(),
+      // Local storage upload history
+      const historyItem: UploadHistory = {
+        fileName: selectedFile.name,
+        uploadedAt: pipelineResult.fileInfo.uploadedAt,
       };
 
-      setFileInfo(info);
-
-      const historyItem: UploadHistory =
-        {
-          fileName: file.name,
-          uploadedAt:
-            new Date().toLocaleString(),
-        };
-
-      const existingHistory =
-        JSON.parse(
-          localStorage.getItem(
-            "uploadHistory"
-          ) || "[]"
+      try {
+        const existingHistory = JSON.parse(
+          localStorage.getItem("uploadHistory") || "[]"
         );
-
-      const updatedHistory = [
-        historyItem,
-        ...existingHistory,
-      ].slice(0, 10);
-
-      localStorage.setItem(
-        "uploadHistory",
-        JSON.stringify(
-          updatedHistory
-        )
-      );
-
-      setUploadHistory(
-        updatedHistory
-      );
+        const updatedHistory = [historyItem, ...existingHistory].slice(0, 10);
+        localStorage.setItem("uploadHistory", JSON.stringify(updatedHistory));
+        setUploadHistory(updatedHistory);
+      } catch {
+        // Fallback for private browsing or SSR
+        setUploadHistory((prev) => [historyItem, ...prev].slice(0, 10));
+      }
     } catch (error) {
-      console.error(
-        "CSV Upload Error:",
-        error
-      );
+      console.error("CSV Processing Pipeline Error:", error);
     } finally {
       setLoading(false);
     }
@@ -137,13 +57,9 @@ export const useCsvUpload = () => {
 
   const resetUpload = () => {
     setFile(null);
-
     setRecords([]);
-
     setValidationResult(null);
-
     setCleaningStats(null);
-
     setFileInfo(null);
   };
 
