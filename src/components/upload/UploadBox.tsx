@@ -67,52 +67,61 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
           if (file) handleFile(file);
         }}
         className={`
-          relative rounded-xl border-2 border-dashed p-8 sm:p-12 text-center
-          transition-colors duration-150
+          relative rounded-2xl border-2 border-dashed p-8 sm:p-12 text-center
+          transition-all duration-200 group overflow-hidden
           ${
             dragActive
-              ? "border-blue-500 bg-blue-500/[0.04]"
-              : "border-white/[0.12] bg-[#0f1118] hover:border-white/[0.22] hover:bg-[#121520]"
+              ? "border-blue-500 bg-blue-500/[0.08] shadow-lg shadow-blue-500/10 scale-[1.005]"
+              : "border-white/[0.14] bg-gradient-to-b from-[#121522] to-[#0c0e15] hover:border-blue-500/40 hover:bg-gradient-to-b hover:from-[#15192a] hover:to-[#0e111a] shadow-md shadow-black/30"
           }
         `}
       >
+        {/* Subtle decorative top highlight */}
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+
         <div className="max-w-md mx-auto flex flex-col items-center">
-          {/* Subtle Icon */}
+          {/* Polished Upload Icon */}
           <div
             onClick={() => inputRef.current?.click()}
             className="
-              mb-4 flex h-12 w-12 items-center justify-center rounded-xl
-              bg-white/[0.04] border border-white/[0.08] text-slate-300
-              cursor-pointer hover:text-white hover:border-white/[0.2] transition-colors
+              mb-4 flex h-14 w-14 items-center justify-center rounded-2xl
+              bg-gradient-to-b from-blue-500/15 to-indigo-500/10 border border-blue-500/25
+              text-blue-400 shadow-sm shadow-blue-500/10
+              cursor-pointer group-hover:scale-105 group-hover:border-blue-500/40 group-hover:text-blue-300
+              group-hover:shadow-blue-500/25 transition-all duration-200
             "
           >
-            <UploadCloud size={24} />
+            <UploadCloud size={26} />
           </div>
 
-          <h2 className="text-base sm:text-lg font-semibold text-white">
+          <h2 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
             Drop your transaction CSV here
           </h2>
 
-          <p className="mt-1.5 text-xs sm:text-sm text-slate-400">
-            Supports standard CSV files with customer, payment, and transaction data.
+          <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-sm">
+            Drag and drop your dataset to automatically clean, validate phone formats, verify math totals, and partition.
           </p>
 
           {/* Primary Action CTA */}
-          <div className="mt-5">
+          <div className="mt-6">
             <button
               onClick={() => inputRef.current?.click()}
               disabled={loading}
               className="
-                inline-flex items-center gap-2 px-4 py-2.5 rounded-lg
-                text-sm font-medium text-white bg-blue-600 hover:bg-blue-500
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors duration-150
+                inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl
+                text-xs font-semibold text-white
+                bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500
+                hover:from-blue-500 hover:via-indigo-500 hover:to-blue-400
+                shadow-md shadow-blue-600/25 hover:shadow-blue-500/35
+                hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]
+                disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+                transition-all duration-200
               "
             >
               {loading ? (
                 <>
                   <Loader2 size={16} className="animate-spin text-white" />
-                  <span>Processing CSV...</span>
+                  <span>Processing Dataset...</span>
                 </>
               ) : (
                 <>
@@ -136,19 +145,21 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
 
           {/* Selected File Feedback */}
           {selectedFile && (
-            <div className="mt-5 w-full rounded-lg border border-emerald-500/30 bg-emerald-950/20 px-4 py-2.5 flex items-center justify-between gap-3 text-left">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
+            <div className="mt-6 w-full rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-4 py-3 flex items-center justify-between gap-3 text-left shadow-sm">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                  <CheckCircle2 size={16} />
+                </div>
                 <div className="truncate">
-                  <p className="text-xs font-medium text-white truncate">{selectedFile.name}</p>
-                  <p className="text-[11px] text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
+                  <p className="text-xs font-semibold text-white truncate">{selectedFile.name}</p>
+                  <p className="text-[11px] text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB • CSV Dataset</p>
                 </div>
               </div>
               <button
                 onClick={() => inputRef.current?.click()}
-                className="text-xs text-slate-400 hover:text-white underline flex-shrink-0"
+                className="text-xs font-medium text-blue-400 hover:text-blue-300 hover:underline flex-shrink-0 transition-colors"
               >
-                Replace
+                Change File
               </button>
             </div>
           )}
@@ -156,7 +167,7 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
       </div>
 
       {/* Clean Collapsible Expected Schema */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#0c0e14] overflow-hidden">
+      <div className="rounded-xl border border-white/[0.08] bg-[#0c0e15] overflow-hidden shadow-sm">
         <button
           type="button"
           onClick={() => setSchemaExpanded(!schemaExpanded)}

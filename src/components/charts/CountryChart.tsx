@@ -10,6 +10,7 @@ import {
   CartesianGrid,
   Cell,
 } from "recharts";
+import { Globe } from "lucide-react";
 
 import { TransactionRecord } from "@/types/transaction";
 
@@ -34,13 +35,20 @@ export default function CountryChart({ data }: CountryChartProps) {
     .sort((a, b) => b.count - a.count);
 
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-[#0f1118] p-5">
+    <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0f1118] p-5 relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/40 via-indigo-500/20 to-transparent" />
+
       <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
-        <div>
-          <h3 className="text-sm font-semibold text-white">Geographic Distribution</h3>
-          <p className="text-xs text-slate-400 mt-0.5">Transactions by country of origin</p>
+        <div className="flex items-center gap-2.5">
+          <div className="h-7 w-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+            <Globe size={15} />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Geographic Distribution</h3>
+            <p className="text-[11px] text-slate-400">Transactions grouped by verified origin</p>
+          </div>
         </div>
-        <span className="text-xs text-slate-400 font-mono">
+        <span className="text-xs text-slate-400 font-mono px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.08]">
           {countryData.length} countries
         </span>
       </div>

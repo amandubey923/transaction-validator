@@ -108,14 +108,16 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
         />
 
         {/* Main Data Grid Container */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#0f1118] overflow-hidden">
+        <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0f1118] overflow-hidden relative">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/40 via-indigo-500/20 to-transparent" />
+
           {/* Grid Header */}
           <div className="p-4 sm:p-5 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-base font-semibold text-white">
                 Transaction Records
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-[11px] text-slate-400 mt-0.5">
                 Cleaned and validated transaction data
               </p>
             </div>
@@ -143,7 +145,7 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
               </p>
               <button
                 onClick={resetFilters}
-                className="mt-3.5 px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-blue-600 hover:bg-blue-500 transition-colors"
+                className="btn-primary mt-3.5 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white shadow-sm cursor-pointer"
               >
                 Reset Filters
               </button>
@@ -168,7 +170,7 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
                   {paginatedData.map((row, index) => (
                     <tr
                       key={index}
-                      className="hover:bg-white/[0.02] transition-colors"
+                      className="hover:bg-blue-500/[0.03] transition-colors"
                     >
                       {columns.map((column) => {
                         const val = row[column];

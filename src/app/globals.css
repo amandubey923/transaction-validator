@@ -51,3 +51,34 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.28);
 }
+
+/* Polished SaaS utilities */
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 2px 8px -2px rgba(37, 99, 235, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  box-shadow: 0 3px 12px -2px rgba(59, 130, 246, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card-interactive {
+  background-color: #0f1118;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-interactive:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}

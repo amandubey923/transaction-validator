@@ -35,14 +35,23 @@ export default function HomePage() {
   return (
     <AppLayout>
       <div className="space-y-8">
-        {/* Clean, Direct Page Header */}
-        <section id="dashboard">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            Transaction Data Validation & Processing
-          </h1>
-          <p className="mt-2 text-sm text-slate-400 max-w-2xl leading-relaxed">
-            Upload financial transaction CSV files to clean inconsistent formatting, validate country-specific phone rules, verify mathematical totals, detect duplicates, and export verified records.
-          </p>
+        {/* Hero Section */}
+        <section id="dashboard" className="pt-1">
+          <div className="pb-6 border-b border-white/[0.08]">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-3">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+              <span>Automated Validation & Partitioning</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+              Transaction Data{" "}
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                Validation & Processing
+              </span>
+            </h1>
+            <p className="mt-2.5 text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+              Ingest international transaction CSVs to audit country-specific phone rules, parse calendar dates, enforce order integrity, verify total formulas, and auto-partition clean records.
+            </p>
+          </div>
         </section>
 
         {/* Primary Action: Upload Dropzone as Hero */}

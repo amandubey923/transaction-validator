@@ -1,6 +1,6 @@
 "use client";
 
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, ChevronDown, Filter } from "lucide-react";
 
 interface DataFiltersProps {
   countries: string[];
@@ -26,15 +26,17 @@ export default function DataFilters({
   return (
     <div className="flex flex-wrap items-center gap-3">
       {/* Country Selector */}
-      <div className="relative flex-1 min-w-[160px]">
+      <div className="relative flex-1 min-w-[170px]">
         <select
           value={selectedCountry}
           onChange={(e) => onCountryChange(e.target.value)}
-          className="
-            w-full appearance-none rounded-lg border border-white/[0.1] bg-[#0f1118]
+          className={`
+            w-full appearance-none rounded-lg border bg-[#0f1118]
             px-3 py-2 text-xs sm:text-sm text-slate-200 font-normal
-            outline-none transition-colors focus:border-blue-500 cursor-pointer
-          "
+            outline-none transition-all cursor-pointer pr-8
+            hover:border-white/[0.2] focus:border-blue-500/80 focus:ring-2 focus:ring-blue-500/20
+            ${selectedCountry ? "border-blue-500/40 bg-blue-500/[0.03]" : "border-white/[0.1]"}
+          `}
         >
           <option value="">All Countries ({countries.length})</option>
           {countries.map((country) => (
@@ -43,21 +45,23 @@ export default function DataFilters({
             </option>
           ))}
         </select>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-[10px]">
-          ▼
+        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          <ChevronDown size={14} />
         </div>
       </div>
 
       {/* Payment Mode Selector */}
-      <div className="relative flex-1 min-w-[160px]">
+      <div className="relative flex-1 min-w-[170px]">
         <select
           value={selectedPaymentMode}
           onChange={(e) => onPaymentModeChange(e.target.value)}
-          className="
-            w-full appearance-none rounded-lg border border-white/[0.1] bg-[#0f1118]
+          className={`
+            w-full appearance-none rounded-lg border bg-[#0f1118]
             px-3 py-2 text-xs sm:text-sm text-slate-200 font-normal
-            outline-none transition-colors focus:border-blue-500 cursor-pointer
-          "
+            outline-none transition-all cursor-pointer pr-8
+            hover:border-white/[0.2] focus:border-blue-500/80 focus:ring-2 focus:ring-blue-500/20
+            ${selectedPaymentMode ? "border-blue-500/40 bg-blue-500/[0.03]" : "border-white/[0.1]"}
+          `}
         >
           <option value="">All Payment Modes ({paymentModes.length})</option>
           {paymentModes.map((mode) => (
@@ -66,8 +70,8 @@ export default function DataFilters({
             </option>
           ))}
         </select>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-[10px]">
-          ▼
+        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          <ChevronDown size={14} />
         </div>
       </div>
 
@@ -76,9 +80,9 @@ export default function DataFilters({
         <button
           onClick={onReset}
           className="
-            inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.04]
-            px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/[0.08]
-            transition-colors
+            inline-flex items-center gap-1.5 rounded-lg border border-white/[0.12] bg-white/[0.04]
+            px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.2]
+            active:scale-[0.98] transition-all cursor-pointer
           "
         >
           <RotateCcw size={13} />
