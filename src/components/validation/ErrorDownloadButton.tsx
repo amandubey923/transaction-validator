@@ -1,18 +1,14 @@
 "use client";
 
-import { AlertTriangle, Download } from "lucide-react";
-
+import { ShieldAlert, FileDown } from "lucide-react";
 import { ValidationError } from "@/types/transaction";
-
 import { downloadErrorCsv } from "@/utils/downloadErrorCsv";
 
 interface ErrorDownloadButtonProps {
   errors: ValidationError[];
 }
 
-export default function ErrorDownloadButton({
-  errors,
-}: ErrorDownloadButtonProps) {
+export default function ErrorDownloadButton({ errors }: ErrorDownloadButtonProps) {
   if (!errors.length) return null;
 
   const handleDownload = () => {
@@ -21,47 +17,28 @@ export default function ErrorDownloadButton({
 
   return (
     <section id="error-download-section">
-      <div
-        className="
-        mt-8
-        overflow-hidden
-        rounded-[32px]
-        border
-        border-red-500/20
-        bg-gradient-to-br
-        from-slate-900
-        via-slate-950
-        to-slate-900
-      "
-      >
-        <div className="p-8">
+      <div className="rounded-3xl border border-rose-500/20 bg-[#0c101a]/90 backdrop-blur-xl shadow-xl overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-rose-500/50 to-transparent" />
+
+        <div className="p-6 sm:p-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div
-                className="
-                flex
-                h-16
-                w-16
-                items-center
-                justify-center
-                rounded-2xl
-                bg-red-500/10
-              "
-              >
-                <AlertTriangle
-                  size={28}
-                  className="text-red-400"
-                />
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.15)] flex-shrink-0">
+                <ShieldAlert size={26} />
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-white">
-                  Export Validation Errors
-                </h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Export Validation Anomalies
+                  </h2>
+                  <span className="px-2.5 py-0.5 rounded-full bg-rose-950/60 border border-rose-500/30 text-rose-400 text-xs font-mono font-semibold">
+                    {errors.length.toLocaleString()} Issues
+                  </span>
+                </div>
 
-                <p className="text-slate-400 mt-1">
-                  Download detailed validation
-                  issues as CSV report.
+                <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                  Generate a dedicated CSV audit file containing row indices, offending fields, and rejection causes.
                 </p>
               </div>
             </div>
@@ -69,47 +46,17 @@ export default function ErrorDownloadButton({
             <button
               onClick={handleDownload}
               className="
-              flex
-              items-center
-              justify-center
-              gap-3
-              rounded-2xl
-              bg-gradient-to-r
-              from-red-500
-              to-rose-500
-              px-8
-              py-4
-              text-white
-              font-semibold
-              transition-all
-              duration-300
-              hover:scale-105
-            "
+                inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl
+                font-semibold text-sm text-white font-mono
+                bg-gradient-to-r from-rose-600 via-rose-500 to-red-600
+                hover:from-rose-500 hover:to-red-500
+                shadow-[0_0_25px_rgba(244,63,94,0.3)] hover:shadow-[0_0_35px_rgba(244,63,94,0.5)]
+                transition-all duration-200 active:scale-[0.98] flex-shrink-0
+              "
             >
-              <Download size={18} />
-              Download Error CSV
+              <FileDown size={18} />
+              <span>Download Error CSV Report</span>
             </button>
-          </div>
-
-          <div
-            className="
-            mt-6
-            rounded-2xl
-            border
-            border-red-500/20
-            bg-red-500/5
-            p-5
-          "
-          >
-            <p className="text-slate-300">
-              Found{" "}
-              <span className="font-bold text-red-400">
-                {errors.length}
-              </span>{" "}
-              validation issues. Export the
-              report and share it with the
-              data team for corrections.
-            </p>
           </div>
         </div>
       </div>

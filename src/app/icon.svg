@@ -1,0 +1,19 @@
+<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vx-fav-primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#00F0FF" />
+      <stop offset="50%" stopColor="#06B6D4" />
+      <stop offset="100%" stopColor="#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="vx-fav-node" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#38BDF8" />
+      <stop offset="100%" stopColor="#A855F7" />
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="36" height="36" rx="10" fill="#07090E" stroke="url(#vx-fav-primary)" stroke-width="2" />
+  <path d="M10 14L18.5 27L20.5 24L14 14H10Z" fill="url(#vx-fav-primary)" />
+  <path d="M17.5 25.5L30 9H25.5L16 22.5L17.5 25.5Z" fill="url(#vx-fav-node)" />
+  <circle cx="30.5" cy="8.5" r="2.5" fill="#00F0FF" />
+</svg>
+

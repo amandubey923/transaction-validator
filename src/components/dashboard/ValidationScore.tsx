@@ -4,15 +4,14 @@ import {
   Award,
   ShieldCheck,
   TrendingUp,
+  Sparkles,
 } from "lucide-react";
 
 interface ValidationScoreProps {
   successRate: number;
 }
 
-export default function ValidationScore({
-  successRate,
-}: ValidationScoreProps) {
+export default function ValidationScore({ successRate }: ValidationScoreProps) {
   const score = Math.round(successRate);
 
   const getGrade = () => {
@@ -23,219 +22,157 @@ export default function ValidationScore({
     return "D";
   };
 
-  const getStatusColor = () => {
-    if (score >= 95)
-      return "text-emerald-400";
-
-    if (score >= 85)
-      return "text-cyan-400";
-
-    if (score >= 75)
-      return "text-yellow-400";
-
-    return "text-rose-400";
+  const getStatus = () => {
+    if (score >= 95) return { label: "Optimal Integrity", color: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-950/60" };
+    if (score >= 85) return { label: "High Quality", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-950/60" };
+    if (score >= 75) return { label: "Moderate Risk", color: "text-yellow-400", border: "border-yellow-500/30", bg: "bg-yellow-950/60" };
+    return { label: "Attention Required", color: "text-rose-400", border: "border-rose-500/30", bg: "bg-rose-950/60" };
   };
+
+  const status = getStatus();
+
+  // SVG Gauge calculations
+  const radius = 70;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
     <section id="validation-score-section">
-      <div
-        className="
-        mt-8
-        overflow-hidden
-        rounded-[32px]
-        border
-        border-white/10
-        bg-gradient-to-br
-        from-slate-900
-        via-slate-950
-        to-slate-900
-        backdrop-blur-xl
-      "
-      >
-        <div className="p-8 border-b border-white/10">
+      <div className="rounded-3xl border border-white/[0.08] bg-[#0c101a]/90 backdrop-blur-xl shadow-xl overflow-hidden relative">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+
+        {/* Header */}
+        <div className="p-6 sm:p-8 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div
-              className="
-              flex
-              h-16
-              w-16
-              items-center
-              justify-center
-              rounded-2xl
-              bg-gradient-to-r
-              from-cyan-500
-              via-violet-500
-              to-indigo-500
-            "
-            >
-              <Award
-                size={30}
-                className="text-white"
-              />
+            <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/20 to-violet-500/20 border border-cyan-500/30 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+              <Award size={26} />
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-white">
-                Dataset Quality Score
-              </h2>
-
-              <p className="text-slate-400 mt-1">
-                Overall validation quality
-                assessment
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  Dataset Quality Score
+                </h2>
+                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full ${status.bg} ${status.border} border ${status.color} text-[10px] font-mono font-semibold`}>
+                  GRADE {getGrade()}
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                Composite evaluation of record integrity, formatting, and mathematical consistency
               </p>
             </div>
           </div>
         </div>
 
-        <div className="p-8">
-          <div className="flex flex-col xl:flex-row items-center gap-10">
-            <div className="relative">
-              <div
-                className="
-                h-52
-                w-52
-                rounded-full
-                border-[14px]
-                border-cyan-500/20
-                flex
-                items-center
-                justify-center
-              "
-              >
-                <div className="text-center">
-                  <h3 className="text-6xl font-bold text-white">
-                    {score}
-                  </h3>
+        {/* Content */}
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            {/* SVG Circular Ring Gauge */}
+            <div className="relative flex-shrink-0 flex items-center justify-center">
+              <svg className="w-48 h-48 sm:w-56 sm:h-56 transform -rotate-90">
+                {/* Background track circle */}
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke="#162032"
+                  strokeWidth="14"
+                  fill="transparent"
+                />
 
-                  <p className="text-slate-400">
-                    /100
-                  </p>
-                </div>
+                {/* Animated gradient progress circle */}
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={radius}
+                  stroke="url(#scoreGradient)"
+                  strokeWidth="14"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  strokeLinecap="round"
+                  fill="transparent"
+                  className="transition-all duration-1000 ease-out"
+                />
+
+                {/* SVG Gradient Definition */}
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="50%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#3b82f6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              {/* Gauge Center Content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span className="text-4xl sm:text-5xl font-extrabold text-white font-mono tracking-tight">
+                  {score}
+                </span>
+                <span className="text-xs text-slate-400 font-mono mt-0.5">
+                  out of 100
+                </span>
+                <span className={`mt-2 text-xs font-mono font-bold px-2 py-0.5 rounded-full ${status.bg} border ${status.border} ${status.color}`}>
+                  {getGrade()} Tier
+                </span>
               </div>
             </div>
 
-            <div className="flex-1 w-full">
-              <div className="grid md:grid-cols-3 gap-5">
-                <div
-                  className="
-                  rounded-3xl
-                  border
-                  border-white/10
-                  bg-white/[0.03]
-                  p-6
-                "
-                >
-                  <ShieldCheck
-                    size={24}
-                    className="text-emerald-400 mb-3"
-                  />
-
-                  <p className="text-slate-400 text-sm">
-                    Quality Grade
-                  </p>
-
-                  <h4
-                    className={`text-4xl font-bold mt-2 ${getStatusColor()}`}
-                  >
+            {/* Right Metric Grid & Progress */}
+            <div className="flex-1 w-full space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 font-medium mb-2">
+                    <ShieldCheck size={16} className="text-emerald-400" />
+                    <span>Quality Grade</span>
+                  </div>
+                  <div className={`text-3xl font-extrabold font-mono ${status.color}`}>
                     {getGrade()}
-                  </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1">Algorithmic tier</p>
                 </div>
 
-                <div
-                  className="
-                  rounded-3xl
-                  border
-                  border-white/10
-                  bg-white/[0.03]
-                  p-6
-                "
-                >
-                  <TrendingUp
-                    size={24}
-                    className="text-cyan-400 mb-3"
-                  />
-
-                  <p className="text-slate-400 text-sm">
-                    Success Rate
-                  </p>
-
-                  <h4 className="text-4xl font-bold text-white mt-2">
+                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 font-medium mb-2">
+                    <TrendingUp size={16} className="text-cyan-400" />
+                    <span>Success Rate</span>
+                  </div>
+                  <div className="text-3xl font-extrabold font-mono text-white">
                     {score}%
-                  </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1">Clean records ratio</p>
                 </div>
 
-                <div
-                  className="
-                  rounded-3xl
-                  border
-                  border-white/10
-                  bg-white/[0.03]
-                  p-6
-                "
-                >
-                  <Award
-                    size={24}
-                    className="text-violet-400 mb-3"
-                  />
-
-                  <p className="text-slate-400 text-sm">
-                    Status
-                  </p>
-
-                  <h4
-                    className={`text-2xl font-bold mt-2 ${getStatusColor()}`}
-                  >
-                    Excellent
-                  </h4>
+                <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 sm:p-5">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 font-medium mb-2">
+                    <Sparkles size={16} className="text-violet-400" />
+                    <span>Health Status</span>
+                  </div>
+                  <div className={`text-lg sm:text-xl font-bold font-mono truncate ${status.color}`}>
+                    {status.label}
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1">Audit status</p>
                 </div>
               </div>
 
-              <div className="mt-8">
-                <div className="flex justify-between text-sm mb-3">
-                  <span className="text-slate-400">
-                    Dataset Quality
-                  </span>
-
-                  <span className="text-white">
-                    {score}%
-                  </span>
+              {/* Linear Progress Bar */}
+              <div>
+                <div className="flex justify-between items-center text-xs font-mono mb-2">
+                  <span className="text-slate-400">Composite Integrity Index</span>
+                  <span className="text-cyan-400 font-bold">{score} / 100</span>
                 </div>
 
-                <div className="h-4 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-2.5 rounded-full bg-slate-900 border border-white/[0.06] overflow-hidden p-0.5">
                   <div
-                    className="
-                    h-full
-                    rounded-full
-                    bg-gradient-to-r
-                    from-cyan-500
-                    via-violet-500
-                    to-indigo-500
-                    transition-all
-                    duration-1000
-                  "
-                    style={{
-                      width: `${score}%`,
-                    }}
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-violet-500 to-indigo-500 transition-all duration-1000 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                    style={{ width: `${score}%` }}
                   />
                 </div>
               </div>
 
-              <div
-                className="
-                mt-8
-                rounded-3xl
-                border
-                border-violet-500/20
-                bg-violet-500/5
-                p-6
-              "
-              >
-                <p className="text-slate-300">
-                  This score is calculated
-                  using successful validation,
-                  data consistency and overall
-                  dataset quality metrics.
-                </p>
+              {/* Informative Note */}
+              <div className="rounded-2xl border border-violet-500/20 bg-violet-950/20 p-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Calculated dynamically via telephone schema compliance, international jurisdiction mapping, timestamp validation, price calculation verification, and duplicate key detection.
               </div>
             </div>
           </div>
