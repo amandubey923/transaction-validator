@@ -25,7 +25,9 @@ export default function ValidationSummary({
   ];
 
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-[#0f121d] p-5 h-full flex flex-col justify-between shadow-sm">
+    <div className="card-interactive relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5 h-full flex flex-col justify-between shadow-sm overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-indigo-500/40 via-blue-500/20 to-transparent" />
+
       <div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-white/[0.06]">
           <div>
@@ -48,19 +50,19 @@ export default function ValidationSummary({
           {checks.map((item) => (
             <div
               key={item.title}
-              className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3.5 flex items-start justify-between gap-3 hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-150 group"
+              className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3.5 flex items-start justify-between gap-3 hover:border-white/[0.14] hover:bg-white/[0.04] transition-all duration-150 group"
             >
               <div>
                 <p className="text-xs font-semibold text-slate-200 group-hover:text-white transition-colors">{item.title}</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">{item.desc}</p>
               </div>
               {item.passed ? (
-                <div className="p-1 rounded-md bg-emerald-500/10 text-emerald-400 flex-shrink-0">
-                  <CheckCircle2 size={15} />
+                <div className="p-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex-shrink-0">
+                  <CheckCircle2 size={15} strokeWidth={1.75} />
                 </div>
               ) : (
-                <div className="p-1 rounded-md bg-amber-500/10 text-amber-400 flex-shrink-0">
-                  <AlertCircle size={15} />
+                <div className="p-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-400 flex-shrink-0">
+                  <AlertCircle size={15} strokeWidth={1.75} />
                 </div>
               )}
             </div>

@@ -41,7 +41,7 @@ export default function CountryChart({ data }: CountryChartProps) {
       <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-            <Globe size={15} />
+            <Globe size={15} strokeWidth={1.75} />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Geographic Distribution</h3>

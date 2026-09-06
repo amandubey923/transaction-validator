@@ -68,38 +68,38 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
         }}
         className={`
           relative rounded-2xl border-2 border-dashed p-8 sm:p-12 text-center
-          transition-all duration-200 group overflow-hidden
+          transition-all duration-200 group overflow-hidden cursor-pointer
           ${
             dragActive
-              ? "border-blue-500 bg-blue-500/[0.08] shadow-lg shadow-blue-500/10 scale-[1.005]"
-              : "border-white/[0.14] bg-gradient-to-b from-[#121522] to-[#0c0e15] hover:border-blue-500/40 hover:bg-gradient-to-b hover:from-[#15192a] hover:to-[#0e111a] shadow-md shadow-black/30"
+              ? "border-blue-500 bg-blue-500/[0.08] shadow-xl shadow-blue-500/10 scale-[1.005]"
+              : "border-white/[0.16] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/20 via-[#0e111a] to-[#0a0b10] hover:border-blue-500/40 hover:from-blue-950/30 hover:via-[#111422] hover:to-[#0c0e15] shadow-lg shadow-black/40"
           }
         `}
       >
         {/* Subtle decorative top highlight */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 
         <div className="max-w-md mx-auto flex flex-col items-center">
-          {/* Polished Upload Icon */}
+          {/* Polished Upload Icon Container */}
           <div
             onClick={() => inputRef.current?.click()}
             className="
               mb-4 flex h-14 w-14 items-center justify-center rounded-2xl
-              bg-gradient-to-b from-blue-500/15 to-indigo-500/10 border border-blue-500/25
-              text-blue-400 shadow-sm shadow-blue-500/10
-              cursor-pointer group-hover:scale-105 group-hover:border-blue-500/40 group-hover:text-blue-300
-              group-hover:shadow-blue-500/25 transition-all duration-200
+              bg-gradient-to-b from-blue-500/20 to-indigo-600/10 border border-blue-500/30
+              text-blue-400 shadow-md shadow-blue-500/15
+              group-hover:scale-105 group-hover:border-blue-500/50 group-hover:text-blue-300
+              group-hover:shadow-blue-500/30 transition-all duration-200
             "
           >
-            <UploadCloud size={26} />
+            <UploadCloud size={26} strokeWidth={1.75} />
           </div>
 
           <h2 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
             Drop your transaction CSV here
           </h2>
 
-          <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-sm">
-            Drag and drop your dataset to automatically clean, validate phone formats, verify math totals, and partition.
+          <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
+            Drag and drop your dataset to automatically validate phone numbers, verify date formats, check totals, and partition.
           </p>
 
           {/* Primary Action CTA */}
@@ -108,28 +108,30 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
               onClick={() => inputRef.current?.click()}
               disabled={loading}
               className="
-                inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl
-                text-xs font-semibold text-white
-                bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500
-                hover:from-blue-500 hover:via-indigo-500 hover:to-blue-400
-                shadow-md shadow-blue-600/25 hover:shadow-blue-500/35
-                hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]
-                disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
-                transition-all duration-200
+                btn-primary inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl
+                text-xs font-semibold text-white cursor-pointer
               "
             >
               {loading ? (
                 <>
-                  <Loader2 size={16} className="animate-spin text-white" />
+                  <Loader2 size={16} strokeWidth={2} className="animate-spin text-white" />
                   <span>Processing Dataset...</span>
                 </>
               ) : (
                 <>
-                  <FileSpreadsheet size={16} />
+                  <FileSpreadsheet size={15} strokeWidth={1.75} />
                   <span>Select CSV File</span>
                 </>
               )}
             </button>
+          </div>
+
+          <div className="mt-3 flex items-center gap-2 text-[11px] text-slate-400">
+            <span>Supports standard CSV</span>
+            <span>•</span>
+            <span>UTF-8 encoding</span>
+            <span>•</span>
+            <span>Up to 100,000+ rows</span>
           </div>
 
           <input
@@ -148,11 +150,11 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
             <div className="mt-6 w-full rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-4 py-3 flex items-center justify-between gap-3 text-left shadow-sm">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                  <CheckCircle2 size={16} />
+                  <CheckCircle2 size={16} strokeWidth={2} />
                 </div>
                 <div className="truncate">
                   <p className="text-xs font-semibold text-white truncate">{selectedFile.name}</p>
-                  <p className="text-[11px] text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB • CSV Dataset</p>
+                  <p className="text-[11px] text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB • Ready for validation</p>
                 </div>
               </div>
               <button
@@ -167,19 +169,19 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
       </div>
 
       {/* Clean Collapsible Expected Schema */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#0c0e15] overflow-hidden shadow-sm">
+      <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0c0e15] overflow-hidden shadow-sm">
         <button
           type="button"
           onClick={() => setSchemaExpanded(!schemaExpanded)}
-          className="w-full flex items-center justify-between px-4 py-3 text-xs text-slate-300 hover:bg-white/[0.03] transition-colors"
+          className="w-full flex items-center justify-between px-4 py-3 text-xs text-slate-300 hover:bg-white/[0.03] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <TableProperties size={15} className="text-slate-400" />
+            <TableProperties size={15} strokeWidth={1.75} className="text-slate-400" />
             <span className="font-medium">Expected CSV Columns ({SCHEMA_COLUMNS.length})</span>
           </div>
-          <div className="flex items-center gap-1 text-slate-400">
-            <span>{schemaExpanded ? "Hide" : "View schema"}</span>
-            {schemaExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+            <span>{schemaExpanded ? "Hide columns" : "View expected schema"}</span>
+            {schemaExpanded ? <ChevronUp size={14} strokeWidth={1.75} /> : <ChevronDown size={14} strokeWidth={1.75} />}
           </div>
         </button>
 

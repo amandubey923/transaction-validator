@@ -34,7 +34,7 @@ export default function CleaningStatsCard({ stats }: CleaningStatsCardProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <Sparkles size={15} />
+            <Sparkles size={15} strokeWidth={1.75} />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Automated Data Normalization</h3>

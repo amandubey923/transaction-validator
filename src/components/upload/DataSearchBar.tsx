@@ -15,6 +15,7 @@ export default function DataSearchBar({
     <div className="relative flex items-center">
       <Search
         size={15}
+        strokeWidth={1.75}
         className="absolute left-3.5 text-slate-400 pointer-events-none"
       />
 
@@ -33,10 +34,10 @@ export default function DataSearchBar({
       {searchTerm && (
         <button
           onClick={() => onSearchChange("")}
-          className="absolute right-3 p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+          className="absolute right-3 p-1 rounded-md text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer"
           title="Clear search filter"
         >
-          <X size={14} />
+          <X size={14} strokeWidth={1.75} />
         </button>
       )}
     </div>

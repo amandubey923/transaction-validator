@@ -19,7 +19,7 @@ export default function RecentUploads({ uploads }: RecentUploadsProps) {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2.5">
             <div className="h-7 w-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-              <History size={15} />
+              <History size={15} strokeWidth={1.75} />
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">Recent Datasets</h3>
@@ -40,7 +40,7 @@ export default function RecentUploads({ uploads }: RecentUploadsProps) {
             >
               <div className="flex items-center gap-3 min-w-0">
                 <div className="h-7 w-7 rounded-md bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-slate-300 flex-shrink-0">
-                  <FileSpreadsheet size={15} />
+                  <FileSpreadsheet size={15} strokeWidth={1.75} />
                 </div>
                 <span className="text-xs font-medium text-slate-200 truncate">
                   {upload.fileName}
@@ -52,7 +52,7 @@ export default function RecentUploads({ uploads }: RecentUploadsProps) {
                   {upload.uploadedAt}
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
-                  <CheckCircle2 size={10} />
+                  <CheckCircle2 size={11} strokeWidth={2} />
                   Processed
                 </span>
               </div>

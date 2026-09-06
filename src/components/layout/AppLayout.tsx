@@ -14,9 +14,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className="h-screen bg-[#090a0f] text-slate-100 flex overflow-hidden font-sans">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block w-64 flex-shrink-0 z-30">
+      <div className="hidden lg:block w-64 flex-shrink-0 z-30">
         <Sidebar open={true} onClose={() => {}} />
-      </aside>
+      </div>
 
       {/* Mobile Sidebar */}
       <div className="lg:hidden">

@@ -46,7 +46,7 @@ export default function DataFilters({
           ))}
         </select>
         <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-          <ChevronDown size={14} />
+          <ChevronDown size={14} strokeWidth={1.75} />
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export default function DataFilters({
           ))}
         </select>
         <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-          <ChevronDown size={14} />
+          <ChevronDown size={14} strokeWidth={1.75} />
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export default function DataFilters({
             active:scale-[0.98] transition-all cursor-pointer
           "
         >
-          <RotateCcw size={13} />
+          <RotateCcw size={13} strokeWidth={1.75} />
           <span>Reset Filters</span>
         </button>
       )}

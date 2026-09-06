@@ -48,7 +48,7 @@ export default function PaymentChart({ data }: PaymentChartProps) {
       <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-            <CreditCard size={15} />
+            <CreditCard size={15} strokeWidth={1.75} />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Payment Methods</h3>

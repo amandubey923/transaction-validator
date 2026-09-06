@@ -17,7 +17,7 @@ export default function ErrorTable({ errors }: ErrorTableProps) {
       <div className="p-4 sm:p-5 border-b border-white/[0.06] flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
-            <AlertCircle size={15} />
+            <AlertCircle size={15} strokeWidth={1.75} />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Quarantined Error Ledger</h3>
@@ -58,7 +58,7 @@ export default function ErrorTable({ errors }: ErrorTableProps) {
       </div>
 
       <div className="p-3.5 bg-white/[0.01] border-t border-white/[0.06] flex items-center gap-2.5 text-xs text-slate-400">
-        <AlertCircle size={14} className="text-amber-400 flex-shrink-0" />
+        <AlertCircle size={14} strokeWidth={1.75} className="text-amber-400 flex-shrink-0" />
         <span>Update values in the original CSV and re-upload to achieve a complete 100% clean validation score.</span>
       </div>
     </div>

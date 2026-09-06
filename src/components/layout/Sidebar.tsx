@@ -137,14 +137,15 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                   `}
                 >
                   <Icon
-                    size={16}
-                    className={`transition-colors duration-150 ${
+                    size={17}
+                    strokeWidth={1.75}
+                    className={`transition-colors duration-150 flex-shrink-0 ${
                       isActive
                         ? "text-blue-400"
-                        : "text-slate-500 group-hover:text-slate-300"
+                        : "text-slate-400 group-hover:text-slate-200"
                     }`}
                   />
-                  <span>{item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </button>
               );
             })}

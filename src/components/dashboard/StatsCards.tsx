@@ -77,9 +77,9 @@ export default function StatsCards({
           <div
             key={item.title}
             className="
-              relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5
+              card-interactive relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5
               flex flex-col justify-between overflow-hidden shadow-sm
-              hover:border-white/[0.14] hover:shadow-lg hover:shadow-black/25
+              hover:border-white/[0.16] hover:shadow-lg hover:shadow-black/40
               hover:-translate-y-0.5 transition-all duration-200 group
             "
           >
@@ -89,7 +89,7 @@ export default function StatsCards({
             <div className="flex items-center justify-between">
               <span className="text-slate-400 text-xs font-medium">{item.title}</span>
               <div className={`p-2 rounded-lg border ${item.iconBox} shadow-sm group-hover:scale-105 transition-transform duration-200`}>
-                <Icon size={16} />
+                <Icon size={17} strokeWidth={1.75} />
               </div>
             </div>
 
@@ -101,7 +101,7 @@ export default function StatsCards({
                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium border ${item.badgeColor}`}>
                   {item.badgeText}
                 </span>
-                <span className="text-[11px] text-slate-500 truncate">in current dataset</span>
+                <span className="text-[11px] text-slate-400 truncate">in current dataset</span>
               </div>
             </div>
           </div>

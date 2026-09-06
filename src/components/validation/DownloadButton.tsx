@@ -51,7 +51,7 @@ export default function DownloadButton({ validData }: DownloadButtonProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-white font-medium text-sm">
                 <div className="h-6 w-6 rounded-md bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                  <FileCheck size={14} />
+                  <FileCheck size={14} strokeWidth={1.75} />
                 </div>
                 <span>Full Dataset CSV</span>
               </div>
@@ -69,7 +69,7 @@ export default function DownloadButton({ validData }: DownloadButtonProps) {
               onClick={handleCleanDownload}
               className="btn-primary w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium text-white shadow-sm cursor-pointer"
             >
-              <Download size={14} />
+              <Download size={14} strokeWidth={1.75} />
               <span>Download Clean CSV</span>
             </button>
           </div>
@@ -81,7 +81,7 @@ export default function DownloadButton({ validData }: DownloadButtonProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-white font-medium text-sm">
                 <div className="h-6 w-6 rounded-md bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-                  <Split size={14} />
+                  <Split size={14} strokeWidth={1.75} />
                 </div>
                 <span>Split Partitions</span>
               </div>
@@ -97,9 +97,9 @@ export default function DownloadButton({ validData }: DownloadButtonProps) {
           <div className="mt-4 pt-3 border-t border-white/[0.04]">
             <button
               onClick={handleChunkDownload}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium text-slate-200 border border-white/[0.12] bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/[0.2] active:scale-[0.98] transition-all cursor-pointer"
+              className="btn-secondary w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium text-slate-200 cursor-pointer"
             >
-              <Download size={14} />
+              <Download size={14} strokeWidth={1.75} />
               <span>Download {chunks.length} Partition Files</span>
             </button>
           </div>

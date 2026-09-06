@@ -17,9 +17,9 @@ export default function ValidationScore({ successRate }: ValidationScoreProps) {
   const status = getStatus();
 
   return (
-    <div className="relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5 h-full flex flex-col justify-between shadow-sm overflow-hidden">
+    <div className="card-interactive relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5 h-full flex flex-col justify-between shadow-sm overflow-hidden">
       {/* Subtle top accent */}
-      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-blue-500/30 via-indigo-500/15 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-blue-500/40 via-indigo-500/20 to-transparent" />
 
       <div>
         <div className="flex items-center justify-between">

@@ -137,7 +137,7 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
           {filteredData.length === 0 ? (
             <div className="p-12 text-center">
               <div className="mx-auto w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-slate-400 mb-3">
-                <SearchX size={20} />
+                <SearchX size={20} strokeWidth={1.75} />
               </div>
               <h3 className="text-sm font-medium text-white">No Matching Transactions</h3>
               <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
@@ -221,11 +221,11 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
                   className="
                     p-1.5 rounded-lg border border-white/[0.08] bg-white/[0.02]
                     text-slate-300 hover:text-white hover:bg-white/[0.06]
-                    disabled:opacity-30 disabled:cursor-not-allowed transition-colors
+                    disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer
                   "
                   title="Previous Page"
                 >
-                  <ChevronLeft size={15} />
+                  <ChevronLeft size={15} strokeWidth={1.75} />
                 </button>
 
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.04] text-slate-300 text-xs">
@@ -238,11 +238,11 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
                   className="
                     p-1.5 rounded-lg border border-white/[0.08] bg-white/[0.02]
                     text-slate-300 hover:text-white hover:bg-white/[0.06]
-                    disabled:opacity-30 disabled:cursor-not-allowed transition-colors
+                    disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer
                   "
                   title="Next Page"
                 >
-                  <ChevronRight size={15} />
+                  <ChevronRight size={15} strokeWidth={1.75} />
                 </button>
               </div>
             </div>
