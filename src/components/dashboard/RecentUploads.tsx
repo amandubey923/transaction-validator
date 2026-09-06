@@ -12,67 +12,44 @@ export default function RecentUploads({ uploads }: RecentUploadsProps) {
 
   return (
     <section id="recent-uploads-section">
-      <div className="rounded-3xl border border-white/[0.08] bg-[#0c101a]/90 backdrop-blur-xl shadow-xl overflow-hidden relative">
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-
+      <div className="rounded-xl border border-white/[0.08] bg-[#0f1118] p-5">
         {/* Header */}
-        <div className="p-6 sm:p-8 border-b border-white/[0.06] flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
-              <History size={26} />
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 rounded-lg bg-white/[0.04] text-slate-400">
+              <History size={16} />
             </div>
-
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Session Upload History
-                </h2>
-                <span className="px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-slate-400 text-xs font-mono">
-                  {uploads.length} Files
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-                Audit trail of previously ingested CSV datasets
-              </p>
+              <h3 className="text-sm font-semibold text-white">Recent Uploads</h3>
+              <p className="text-xs text-slate-400">Files processed in this session</p>
             </div>
           </div>
+          <span className="text-xs font-mono text-slate-500">
+            {uploads.length} {uploads.length === 1 ? "file" : "files"}
+          </span>
         </div>
 
         {/* History List */}
-        <div className="p-6 sm:p-8 space-y-3">
+        <div className="space-y-2">
           {uploads.map((upload, index) => (
             <div
               key={`${upload.fileName}-${index}`}
-              className="
-                flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-2xl
-                border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.1]
-                transition-all duration-200 group
-              "
+              className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03] transition-colors"
             >
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover:scale-105 transition-transform">
-                  <FileSpreadsheet size={20} />
-                </div>
-
-                <div className="min-w-0">
-                  <h4 className="text-sm font-semibold text-white truncate group-hover:text-cyan-300 transition-colors">
-                    {upload.fileName}
-                  </h4>
-                  <p className="text-[11px] font-mono text-slate-400">
-                    RFC 4180 CSV Dataset
-                  </p>
-                </div>
+              <div className="flex items-center gap-3 min-w-0">
+                <FileSpreadsheet size={16} className="text-slate-400 flex-shrink-0" />
+                <span className="text-xs font-medium text-slate-200 truncate">
+                  {upload.fileName}
+                </span>
               </div>
 
-              <div className="flex items-center gap-3 self-end sm:self-center flex-shrink-0">
-                <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-                  <Clock3 size={13} className="text-slate-500" />
-                  <span>{upload.uploadedAt}</span>
-                </div>
-
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-950/50 border border-emerald-500/25 text-emerald-400 text-[10px] font-mono font-medium">
-                  <CheckCircle2 size={11} />
-                  PROCESSED
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <span className="text-[11px] font-mono text-slate-500">
+                  {upload.uploadedAt}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-medium text-emerald-400 bg-emerald-500/10">
+                  <CheckCircle2 size={10} />
+                  Processed
                 </span>
               </div>
             </div>

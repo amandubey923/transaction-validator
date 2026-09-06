@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldAlert, FileDown } from "lucide-react";
+import { AlertCircle, Download } from "lucide-react";
 import { ValidationError } from "@/types/transaction";
 import { downloadErrorCsv } from "@/utils/downloadErrorCsv";
 
@@ -16,50 +16,28 @@ export default function ErrorDownloadButton({ errors }: ErrorDownloadButtonProps
   };
 
   return (
-    <section id="error-download-section">
-      <div className="rounded-3xl border border-rose-500/20 bg-[#0c101a]/90 backdrop-blur-xl shadow-xl overflow-hidden relative">
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-rose-500/50 to-transparent" />
-
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="flex items-start sm:items-center gap-4">
-              <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.15)] flex-shrink-0">
-                <ShieldAlert size={26} />
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                    Export Validation Anomalies
-                  </h2>
-                  <span className="px-2.5 py-0.5 rounded-full bg-rose-950/60 border border-rose-500/30 text-rose-400 text-xs font-mono font-semibold">
-                    {errors.length.toLocaleString()} Issues
-                  </span>
-                </div>
-
-                <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-                  Generate a dedicated CSV audit file containing row indices, offending fields, and rejection causes.
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={handleDownload}
-              className="
-                inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl
-                font-semibold text-sm text-white font-mono
-                bg-gradient-to-r from-rose-600 via-rose-500 to-red-600
-                hover:from-rose-500 hover:to-red-500
-                shadow-[0_0_25px_rgba(244,63,94,0.3)] hover:shadow-[0_0_35px_rgba(244,63,94,0.5)]
-                transition-all duration-200 active:scale-[0.98] flex-shrink-0
-              "
-            >
-              <FileDown size={18} />
-              <span>Download Error CSV Report</span>
-            </button>
-          </div>
+    <div className="rounded-xl border border-rose-500/20 bg-rose-500/[0.03] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center gap-3">
+        <div className="h-9 w-9 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center flex-shrink-0">
+          <AlertCircle size={18} />
+        </div>
+        <div>
+          <h4 className="text-sm font-semibold text-white">
+            {errors.length.toLocaleString()} validation {errors.length === 1 ? "issue" : "issues"} detected
+          </h4>
+          <p className="text-xs text-slate-400">
+            Export a dedicated CSV report of failed rows, offending fields, and error causes for auditing.
+          </p>
         </div>
       </div>
-    </section>
+
+      <button
+        onClick={handleDownload}
+        className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs font-medium text-rose-200 border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 transition-colors flex-shrink-0"
+      >
+        <Download size={14} />
+        <span>Download Error CSV</span>
+      </button>
+    </div>
   );
 }

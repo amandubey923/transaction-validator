@@ -2,13 +2,13 @@
 
 @layer base {
   :root {
-    --bg-primary: #07090e;
-    --bg-surface: #0c101a;
-    --bg-surface-elevated: #111726;
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-highlight: rgba(6, 182, 212, 0.25);
-    --accent-cyan: #06b6d4;
-    --accent-violet: #8b5cf6;
+    --bg-primary: #090a0f;
+    --bg-surface: #11131a;
+    --bg-surface-elevated: #161922;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.14);
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
   }
 
   * {
@@ -24,82 +24,30 @@
     background-color: var(--bg-primary);
     color: #f1f5f9;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background: rgba(6, 182, 212, 0.3);
+    background: rgba(59, 130, 246, 0.3);
     color: #ffffff;
   }
 }
 
-/* Custom Sleek Scrollbars */
+/* Minimal, professional scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #07090e;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    rgba(6, 182, 212, 0.5),
-    rgba(139, 92, 246, 0.5)
-  );
-  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(6, 182, 212, 0.8),
-    rgba(139, 92, 246, 0.8)
-  );
-}
-
-/* Subtle Futuristic Mesh / Dot Background */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: 
-    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-}
-
-.bg-radial-vignette {
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(6, 182, 212, 0.08) 0%,
-    rgba(139, 92, 246, 0.04) 40%,
-    transparent 80%
-  );
-}
-
-/* Keyframe animations */
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.03);
-  }
-}
-
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(1000%);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-.animate-scanline {
-  animation: scanline 8s linear infinite;
+  background: rgba(255, 255, 255, 0.28);
 }
