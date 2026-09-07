@@ -31,11 +31,11 @@ export default function DataFilters({
           value={selectedCountry}
           onChange={(e) => onCountryChange(e.target.value)}
           className={`
-            w-full appearance-none rounded-lg border bg-[#0f1118]
-            px-3 py-2 text-xs sm:text-sm text-slate-200 font-normal
-            outline-none transition-all cursor-pointer pr-8
+            w-full appearance-none rounded-xl border bg-[#0f1118]
+            px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 font-normal
+            outline-none transition-all cursor-pointer pr-9 shadow-xs
             hover:border-white/[0.2] focus:border-blue-500/80 focus:ring-2 focus:ring-blue-500/20
-            ${selectedCountry ? "border-blue-500/40 bg-blue-500/[0.03]" : "border-white/[0.1]"}
+            ${selectedCountry ? "border-blue-500/50 bg-blue-500/[0.05] text-blue-200" : "border-white/[0.1]"}
           `}
         >
           <option value="">All Countries ({countries.length})</option>
@@ -45,8 +45,8 @@ export default function DataFilters({
             </option>
           ))}
         </select>
-        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-          <ChevronDown size={14} strokeWidth={1.75} />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          <ChevronDown size={15} strokeWidth={1.8} />
         </div>
       </div>
 
@@ -56,11 +56,11 @@ export default function DataFilters({
           value={selectedPaymentMode}
           onChange={(e) => onPaymentModeChange(e.target.value)}
           className={`
-            w-full appearance-none rounded-lg border bg-[#0f1118]
-            px-3 py-2 text-xs sm:text-sm text-slate-200 font-normal
-            outline-none transition-all cursor-pointer pr-8
+            w-full appearance-none rounded-xl border bg-[#0f1118]
+            px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 font-normal
+            outline-none transition-all cursor-pointer pr-9 shadow-xs
             hover:border-white/[0.2] focus:border-blue-500/80 focus:ring-2 focus:ring-blue-500/20
-            ${selectedPaymentMode ? "border-blue-500/40 bg-blue-500/[0.03]" : "border-white/[0.1]"}
+            ${selectedPaymentMode ? "border-violet-500/50 bg-violet-500/[0.05] text-violet-200" : "border-white/[0.1]"}
           `}
         >
           <option value="">All Payment Modes ({paymentModes.length})</option>
@@ -70,8 +70,8 @@ export default function DataFilters({
             </option>
           ))}
         </select>
-        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-          <ChevronDown size={14} strokeWidth={1.75} />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          <ChevronDown size={15} strokeWidth={1.8} />
         </div>
       </div>
 
@@ -80,12 +80,12 @@ export default function DataFilters({
         <button
           onClick={onReset}
           className="
-            inline-flex items-center gap-1.5 rounded-lg border border-white/[0.12] bg-white/[0.04]
-            px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.2]
-            active:scale-[0.98] transition-all cursor-pointer
+            inline-flex items-center gap-1.5 rounded-xl border border-white/[0.12] bg-white/[0.04]
+            px-3.5 py-2.5 text-xs text-slate-300 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.2]
+            active:scale-[0.98] transition-all cursor-pointer shadow-xs
           "
         >
-          <RotateCcw size={13} strokeWidth={1.75} />
+          <RotateCcw size={14} strokeWidth={1.8} />
           <span>Reset Filters</span>
         </button>
       )}

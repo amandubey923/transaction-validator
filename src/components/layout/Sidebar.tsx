@@ -25,41 +25,57 @@ const menuItems = [
     icon: LayoutDashboard,
     label: "Overview",
     id: "dashboard",
+    activeColor: "text-blue-400",
+    borderAccent: "border-blue-500",
   },
   {
     icon: UploadCloud,
     label: "Upload CSV",
     id: "upload",
+    activeColor: "text-cyan-400",
+    borderAccent: "border-cyan-500",
   },
   {
     icon: BarChart3,
     label: "Statistics",
     id: "stats",
+    activeColor: "text-indigo-400",
+    borderAccent: "border-indigo-500",
   },
   {
     icon: PieChart,
     label: "Analytics",
     id: "country-chart-section",
+    activeColor: "text-violet-400",
+    borderAccent: "border-violet-500",
   },
   {
     icon: AlertTriangle,
     label: "Validation Errors",
     id: "error-download-section",
+    activeColor: "text-rose-400",
+    borderAccent: "border-rose-500",
   },
   {
     icon: Download,
     label: "Export Datasets",
     id: "downloads-section",
+    activeColor: "text-emerald-400",
+    borderAccent: "border-emerald-500",
   },
   {
     icon: TableProperties,
     label: "Data Preview",
     id: "preview-section",
+    activeColor: "text-blue-400",
+    borderAccent: "border-blue-500",
   },
   {
     icon: History,
     label: "Recent Files",
     id: "recent-uploads-section",
+    activeColor: "text-slate-300",
+    borderAccent: "border-slate-400",
   },
 ];
 
@@ -95,7 +111,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           fixed lg:sticky top-0 left-0 z-50 h-screen w-64 flex-shrink-0 flex flex-col
           transform transition-transform duration-200 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-          border-r border-white/[0.08] bg-[#0c0e15]
+          border-r border-white/[0.08] bg-[#0c0e17]
         `}
       >
         {/* Brand Header with Single Primary Logo */}
@@ -128,20 +144,20 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                   onClick={() => scrollToSection(item.id)}
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
-                    text-xs font-medium transition-all duration-150 text-left group
+                    text-xs font-medium transition-all duration-150 text-left group cursor-pointer
                     ${
                       isActive
-                        ? "bg-blue-600/10 text-blue-400 font-semibold border-l-2 border-blue-500 shadow-sm shadow-blue-500/5"
+                        ? `bg-gradient-to-r from-blue-600/15 via-indigo-600/10 to-transparent text-white font-semibold border-l-2 ${item.borderAccent} shadow-sm shadow-blue-500/5`
                         : "text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]"
                     }
                   `}
                 >
                   <Icon
                     size={17}
-                    strokeWidth={1.75}
+                    strokeWidth={1.8}
                     className={`transition-colors duration-150 flex-shrink-0 ${
                       isActive
-                        ? "text-blue-400"
+                        ? item.activeColor
                         : "text-slate-400 group-hover:text-slate-200"
                     }`}
                   />

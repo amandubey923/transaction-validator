@@ -52,7 +52,7 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
 
   return (
     <div className="space-y-4">
-      {/* Primary Dropzone */}
+      {/* Primary Dropzone with Gradient Border */}
       <div
         onDragEnter={(e) => {
           e.preventDefault();
@@ -67,119 +67,146 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
           if (file) handleFile(file);
         }}
         className={`
-          relative rounded-2xl border-2 border-dashed p-8 sm:p-12 text-center
-          transition-all duration-200 group overflow-hidden cursor-pointer
+          p-[1.5px] rounded-2xl transition-all duration-300
           ${
             dragActive
-              ? "border-blue-500 bg-blue-500/[0.08] shadow-xl shadow-blue-500/10 scale-[1.005]"
-              : "border-white/[0.16] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/20 via-[#0e111a] to-[#0a0b10] hover:border-blue-500/40 hover:from-blue-950/30 hover:via-[#111422] hover:to-[#0c0e15] shadow-lg shadow-black/40"
+              ? "bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-2xl shadow-blue-500/20 scale-[1.008]"
+              : "bg-gradient-to-b from-blue-500/30 via-indigo-500/15 to-violet-500/25 hover:from-blue-500/45 hover:via-indigo-500/25 hover:to-violet-500/35 shadow-xl shadow-black/40"
           }
         `}
       >
-        {/* Subtle decorative top highlight */}
-        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+        <div
+          className={`
+            relative rounded-[15px] border border-dashed p-8 sm:p-12 text-center
+            transition-all duration-200 group overflow-hidden cursor-pointer
+            ${
+              dragActive
+                ? "border-blue-400 bg-blue-950/40"
+                : "border-white/[0.14] bg-gradient-to-b from-[#111528] via-[#0d101e] to-[#090b12] hover:border-blue-400/40 hover:bg-gradient-to-b hover:from-[#131932] hover:via-[#0e1224] hover:to-[#0a0d15]"
+            }
+          `}
+        >
+          {/* Subtle decorative top highlight */}
+          <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-blue-500/40 via-cyan-400/40 to-violet-500/40" />
+          
+          {/* Soft inner radial ambient lighting */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-48 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="max-w-md mx-auto flex flex-col items-center">
-          {/* Polished Upload Icon Container */}
-          <div
-            onClick={() => inputRef.current?.click()}
-            className="
-              mb-4 flex h-14 w-14 items-center justify-center rounded-2xl
-              bg-gradient-to-b from-blue-500/20 to-indigo-600/10 border border-blue-500/30
-              text-blue-400 shadow-md shadow-blue-500/15
-              group-hover:scale-105 group-hover:border-blue-500/50 group-hover:text-blue-300
-              group-hover:shadow-blue-500/30 transition-all duration-200
-            "
-          >
-            <UploadCloud size={26} strokeWidth={1.75} />
-          </div>
-
-          <h2 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
-            Drop your transaction CSV here
-          </h2>
-
-          <p className="mt-1.5 text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
-            Drag and drop your dataset to automatically validate phone numbers, verify date formats, check totals, and partition.
-          </p>
-
-          {/* Primary Action CTA */}
-          <div className="mt-6">
-            <button
+          <div className="max-w-md mx-auto flex flex-col items-center relative z-10">
+            {/* Polished Upload Icon Container */}
+            <div
               onClick={() => inputRef.current?.click()}
-              disabled={loading}
               className="
-                btn-primary inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl
-                text-xs font-semibold text-white cursor-pointer
+                mb-4 flex h-16 w-16 items-center justify-center rounded-2xl
+                bg-gradient-to-b from-blue-500/25 via-indigo-600/20 to-violet-600/15
+                border border-blue-400/40 text-blue-300 shadow-lg shadow-blue-500/20
+                group-hover:scale-105 group-hover:border-cyan-400/60 group-hover:text-cyan-200
+                group-hover:shadow-cyan-500/30 transition-all duration-200
               "
             >
-              {loading ? (
-                <>
-                  <Loader2 size={16} strokeWidth={2} className="animate-spin text-white" />
-                  <span>Processing Dataset...</span>
-                </>
-              ) : (
-                <>
-                  <FileSpreadsheet size={15} strokeWidth={1.75} />
-                  <span>Select CSV File</span>
-                </>
-              )}
-            </button>
-          </div>
+              <UploadCloud size={28} strokeWidth={1.8} />
+            </div>
 
-          <div className="mt-3 flex items-center gap-2 text-[11px] text-slate-400">
-            <span>Supports standard CSV</span>
-            <span>•</span>
-            <span>UTF-8 encoding</span>
-            <span>•</span>
-            <span>Up to 100,000+ rows</span>
-          </div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-[11px] font-medium text-blue-300 mb-2">
+              <span>Ready for Processing</span>
+            </div>
 
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".csv"
-            className="hidden"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleFile(file);
-            }}
-          />
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+              Drop your transaction CSV here
+            </h2>
 
-          {/* Selected File Feedback */}
-          {selectedFile && (
-            <div className="mt-6 w-full rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-4 py-3 flex items-center justify-between gap-3 text-left shadow-sm">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
-                  <CheckCircle2 size={16} strokeWidth={2} />
-                </div>
-                <div className="truncate">
-                  <p className="text-xs font-semibold text-white truncate">{selectedFile.name}</p>
-                  <p className="text-[11px] text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB • Ready for validation</p>
-                </div>
-              </div>
+            <p className="mt-1.5 text-xs sm:text-sm text-slate-300 max-w-sm leading-relaxed">
+              Drag and drop your dataset to automatically validate phone numbers, verify date formats, check math formulas, and partition clean rows.
+            </p>
+
+            {/* Primary Action CTA */}
+            <div className="mt-6">
               <button
                 onClick={() => inputRef.current?.click()}
-                className="text-xs font-medium text-blue-400 hover:text-blue-300 hover:underline flex-shrink-0 transition-colors"
+                disabled={loading}
+                className="
+                  btn-primary inline-flex items-center gap-2.5 px-6 py-2.5 rounded-xl
+                  text-xs sm:text-sm font-semibold text-white cursor-pointer shadow-lg
+                "
               >
-                Change File
+                {loading ? (
+                  <>
+                    <Loader2 size={16} strokeWidth={2} className="animate-spin text-white" />
+                    <span>Processing Dataset...</span>
+                  </>
+                ) : (
+                  <>
+                    <FileSpreadsheet size={16} strokeWidth={1.8} />
+                    <span>Select CSV File</span>
+                  </>
+                )}
               </button>
             </div>
-          )}
+
+            <div className="mt-3.5 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-400">
+              <span className="flex items-center gap-1 text-slate-300">
+                <span className="h-1 w-1 rounded-full bg-blue-400" />
+                Standard CSV
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1 text-slate-300">
+                <span className="h-1 w-1 rounded-full bg-cyan-400" />
+                UTF-8 Encoded
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1 text-slate-300">
+                <span className="h-1 w-1 rounded-full bg-indigo-400" />
+                Up to 100,000+ rows
+              </span>
+            </div>
+
+            <input
+              ref={inputRef}
+              type="file"
+              accept=".csv"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFile(file);
+              }}
+            />
+
+            {/* Selected File Feedback */}
+            {selectedFile && (
+              <div className="mt-6 w-full rounded-xl border border-emerald-500/40 bg-emerald-950/25 px-4 py-3 flex items-center justify-between gap-3 text-left shadow-md shadow-emerald-500/5">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-8 w-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                    <CheckCircle2 size={16} strokeWidth={2} />
+                  </div>
+                  <div className="truncate">
+                    <p className="text-xs font-semibold text-white truncate">{selectedFile.name}</p>
+                    <p className="text-[11px] text-emerald-300/80 font-mono">{(selectedFile.size / 1024).toFixed(1)} KB • Ready for validation</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => inputRef.current?.click()}
+                  className="text-xs font-medium text-cyan-400 hover:text-cyan-300 hover:underline flex-shrink-0 transition-colors"
+                >
+                  Change File
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Clean Collapsible Expected Schema */}
-      <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0c0e15] overflow-hidden shadow-sm">
+      <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0c0e17] overflow-hidden shadow-sm">
         <button
           type="button"
           onClick={() => setSchemaExpanded(!schemaExpanded)}
           className="w-full flex items-center justify-between px-4 py-3 text-xs text-slate-300 hover:bg-white/[0.03] transition-colors cursor-pointer"
         >
           <div className="flex items-center gap-2">
-            <TableProperties size={15} strokeWidth={1.75} className="text-slate-400" />
-            <span className="font-medium">Expected CSV Columns ({SCHEMA_COLUMNS.length})</span>
+            <TableProperties size={15} strokeWidth={1.75} className="text-indigo-400" />
+            <span className="font-semibold text-white">Expected CSV Columns ({SCHEMA_COLUMNS.length})</span>
           </div>
-          <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px]">
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
             <span>{schemaExpanded ? "Hide columns" : "View expected schema"}</span>
             {schemaExpanded ? <ChevronUp size={14} strokeWidth={1.75} /> : <ChevronDown size={14} strokeWidth={1.75} />}
           </div>
@@ -189,22 +216,32 @@ export default function UploadBox({ onFileSelect, loading }: UploadBoxProps) {
           <div className="border-t border-white/[0.08] px-4 py-3 overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-white/[0.06] text-slate-500 text-left">
-                  <th className="py-2 px-2 font-medium">Column</th>
-                  <th className="py-2 px-2 font-medium">Type</th>
-                  <th className="py-2 px-2 font-medium">Example</th>
-                  <th className="py-2 px-2 font-medium">Validation Rule</th>
+                <tr className="border-b border-white/[0.06] text-slate-400 text-left">
+                  <th className="py-2.5 px-3 font-semibold text-slate-300">Column</th>
+                  <th className="py-2.5 px-3 font-semibold text-slate-300">Type</th>
+                  <th className="py-2.5 px-3 font-semibold text-slate-300">Example</th>
+                  <th className="py-2.5 px-3 font-semibold text-slate-300">Validation Rule</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.04] text-slate-300">
-                {SCHEMA_COLUMNS.map((col) => (
-                  <tr key={col.name} className="hover:bg-white/[0.02]">
-                    <td className="py-2 px-2 font-mono text-blue-400 font-medium">{col.name}</td>
-                    <td className="py-2 px-2 text-slate-400">{col.type}</td>
-                    <td className="py-2 px-2 font-mono text-slate-300">{col.sample}</td>
-                    <td className="py-2 px-2 text-slate-400">{col.note}</td>
-                  </tr>
-                ))}
+                {SCHEMA_COLUMNS.map((col) => {
+                  let typeBadge = "bg-blue-500/10 border-blue-500/20 text-blue-400";
+                  if (col.type === "number") typeBadge = "bg-cyan-500/10 border-cyan-500/20 text-cyan-400";
+                  if (col.type === "date" || col.type === "time") typeBadge = "bg-violet-500/10 border-violet-500/20 text-violet-400";
+
+                  return (
+                    <tr key={col.name} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="py-2.5 px-3 font-mono text-blue-400 font-semibold">{col.name}</td>
+                      <td className="py-2.5 px-3">
+                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-mono border ${typeBadge}`}>
+                          {col.type}
+                        </span>
+                      </td>
+                      <td className="py-2.5 px-3 font-mono text-slate-200">{col.sample}</td>
+                      <td className="py-2.5 px-3 text-slate-300">{col.note}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

@@ -36,19 +36,23 @@ export default function HomePage() {
     <AppLayout>
       <div className="space-y-8">
         {/* Hero Section */}
-        <section id="dashboard" className="pt-1">
-          <div className="pb-6 border-b border-white/[0.08]">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-              <span>Automated Validation & Partitioning</span>
+        <section id="dashboard" className="pt-2 relative">
+          {/* Subtle ambient accent glow behind hero */}
+          <div className="absolute -top-10 left-1/4 w-96 h-32 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+          <div className="absolute -top-6 right-1/3 w-80 h-28 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+
+          <div className="pb-7 border-b border-white/[0.08] relative">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/15 via-indigo-500/10 to-cyan-500/15 border border-blue-500/30 text-blue-300 text-xs font-medium mb-3.5 shadow-sm shadow-blue-500/5">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span>Automated Validation & Partitioning Engine</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
               Transaction Data{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
                 Validation & Processing
               </span>
             </h1>
-            <p className="mt-2.5 text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
               Ingest international transaction CSVs to audit country-specific phone rules, parse calendar dates, enforce order integrity, verify total formulas, and auto-partition clean records.
             </p>
           </div>

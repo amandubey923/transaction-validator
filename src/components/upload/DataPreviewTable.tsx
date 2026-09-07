@@ -108,13 +108,13 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
         />
 
         {/* Main Data Grid Container */}
-        <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0f1118] overflow-hidden relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/40 via-indigo-500/20 to-transparent" />
+        <div className="card-interactive rounded-xl border border-white/[0.08] bg-[#0f1118] overflow-hidden relative shadow-sm hover:border-white/[0.16] hover:shadow-xl hover:shadow-black/40 transition-all duration-200">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/50 via-indigo-500/25 to-transparent" />
 
           {/* Grid Header */}
           <div className="p-4 sm:p-5 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-white tracking-wide">
                 Transaction Records
               </h2>
               <p className="text-[11px] text-slate-400 mt-0.5">
@@ -124,11 +124,11 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
 
             <div className="flex items-center gap-3 text-xs font-mono">
               <span className="text-slate-400">
-                Rows: <strong className="text-white font-semibold">{filteredData.length.toLocaleString()}</strong>
+                Rows: <strong className="text-blue-400 font-semibold">{filteredData.length.toLocaleString()}</strong>
               </span>
               <span className="text-slate-600">·</span>
               <span className="text-slate-400">
-                Columns: <strong className="text-white font-semibold">{columns.length}</strong>
+                Columns: <strong className="text-indigo-400 font-semibold">{columns.length}</strong>
               </span>
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function DataPreviewTable({ data }: DataPreviewTableProps) {
           ) : (
             <div className="overflow-x-auto max-h-[600px]">
               <table className="w-full text-left text-xs min-w-[1000px]">
-                <thead className="sticky top-0 bg-[#121520] z-10 border-b border-white/[0.08] text-slate-400 font-mono text-[11px] uppercase tracking-wider">
+                <thead className="sticky top-0 bg-[#121524] z-10 border-b border-white/[0.08] text-slate-400 font-mono text-[11px] uppercase tracking-wider">
                   <tr>
                     {columns.map((column) => (
                       <th

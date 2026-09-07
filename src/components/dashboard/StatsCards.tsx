@@ -28,43 +28,47 @@ export default function StatsCards({
       title: "Total Ingested",
       value: totalRows.toLocaleString(),
       badgeText: "100% Parsed",
-      badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      badgeColor: "bg-blue-500/10 text-blue-300 border-blue-500/25",
       icon: Database,
-      iconBox: "bg-blue-500/10 border-blue-500/20 text-blue-400",
-      topGradient: "from-blue-500/30 via-blue-500/10 to-transparent",
+      iconBox: "bg-blue-500/15 border-blue-500/30 text-blue-400 shadow-blue-500/10",
+      topGradient: "from-blue-500/50 via-cyan-500/20 to-transparent",
+      hoverBorder: "hover:border-blue-500/40",
     },
     {
       title: "Valid Records",
       value: validRows.toLocaleString(),
       badgeText: `${validRate}% Pass`,
-      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      badgeColor: "bg-emerald-500/10 text-emerald-300 border-emerald-500/25",
       icon: CheckCircle2,
-      iconBox: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
-      topGradient: "from-emerald-500/30 via-emerald-500/10 to-transparent",
+      iconBox: "bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-emerald-500/10",
+      topGradient: "from-emerald-500/50 via-teal-500/20 to-transparent",
+      hoverBorder: "hover:border-emerald-500/40",
     },
     {
       title: "Invalid Records",
       value: invalidRows.toLocaleString(),
       badgeText: invalidRows > 0 ? `${invalidRate}% Issues` : "Clean",
       badgeColor: invalidRows > 0
-        ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
-        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+        ? "bg-rose-500/10 text-rose-300 border-rose-500/25"
+        : "bg-emerald-500/10 text-emerald-300 border-emerald-500/25",
       icon: AlertCircle,
       iconBox: invalidRows > 0
-        ? "bg-rose-500/10 border-rose-500/20 text-rose-400"
-        : "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
+        ? "bg-rose-500/15 border-rose-500/30 text-rose-400 shadow-rose-500/10"
+        : "bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-emerald-500/10",
       topGradient: invalidRows > 0
-        ? "from-rose-500/30 via-rose-500/10 to-transparent"
-        : "from-emerald-500/30 via-emerald-500/10 to-transparent",
+        ? "from-rose-500/50 via-amber-500/20 to-transparent"
+        : "from-emerald-500/50 via-teal-500/20 to-transparent",
+      hoverBorder: invalidRows > 0 ? "hover:border-rose-500/40" : "hover:border-emerald-500/40",
     },
     {
       title: "Countries Detected",
       value: countriesDetected.toLocaleString(),
       badgeText: "Verified",
-      badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+      badgeColor: "bg-indigo-500/10 text-indigo-300 border-indigo-500/25",
       icon: Globe,
-      iconBox: "bg-indigo-500/10 border-indigo-500/20 text-indigo-400",
-      topGradient: "from-indigo-500/30 via-indigo-500/10 to-transparent",
+      iconBox: "bg-indigo-500/15 border-indigo-500/30 text-indigo-400 shadow-indigo-500/10",
+      topGradient: "from-indigo-500/50 via-violet-500/20 to-transparent",
+      hoverBorder: "hover:border-indigo-500/40",
     },
   ];
 
@@ -76,29 +80,29 @@ export default function StatsCards({
         return (
           <div
             key={item.title}
-            className="
+            className={`
               card-interactive relative rounded-xl border border-white/[0.08] bg-[#0f121d] p-5
               flex flex-col justify-between overflow-hidden shadow-sm
-              hover:border-white/[0.16] hover:shadow-lg hover:shadow-black/40
-              hover:-translate-y-0.5 transition-all duration-200 group
-            "
+              ${item.hoverBorder} hover:shadow-xl hover:shadow-black/50
+              hover:-translate-y-1 transition-all duration-200 group
+            `}
           >
-            {/* Subtle top accent line */}
+            {/* Top accent gradient line */}
             <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r ${item.topGradient}`} />
 
             <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-xs font-medium">{item.title}</span>
-              <div className={`p-2 rounded-lg border ${item.iconBox} shadow-sm group-hover:scale-105 transition-transform duration-200`}>
-                <Icon size={17} strokeWidth={1.75} />
+              <span className="text-slate-400 text-xs font-medium tracking-wide">{item.title}</span>
+              <div className={`p-2 rounded-xl border ${item.iconBox} shadow-sm group-hover:scale-110 transition-all duration-200`}>
+                <Icon size={18} strokeWidth={1.8} />
               </div>
             </div>
 
             <div className="mt-4">
-              <div className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight">
+              <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
                 {item.value}
               </div>
               <div className="mt-2.5 flex items-center gap-2">
-                <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium border ${item.badgeColor}`}>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border shadow-xs ${item.badgeColor}`}>
                   {item.badgeText}
                 </span>
                 <span className="text-[11px] text-slate-400 truncate">in current dataset</span>
